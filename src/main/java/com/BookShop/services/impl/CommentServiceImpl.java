@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.BookShop.entities.Book;
 import com.BookShop.entities.Comment;
 import com.BookShop.entities.User;
+import com.BookShop.exceptions.AppException;
 import com.BookShop.payload.CommentRequest;
 import com.BookShop.repositories.BookRepository;
 import com.BookShop.repositories.CommentRepository;
@@ -37,8 +38,8 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	@Transactional
 	public Comment addComment(CommentRequest commentRequest, String username) {
-		User user = userRepository.findByUsername(username).orElseThrow(()-> new RuntimeException());
-		Book book = bookRepository.findById(commentRequest.getBookId()).orElseThrow(()-> new RuntimeException());
+		User user = userRepository.findByUsername(username).orElseThrow(()-> new AppException("Thất bại. Thông tin người dùng không hợp lệ"));
+		Book book = bookRepository.findById(commentRequest.getBookId()).orElseThrow(()-> new AppException("Thất bại. Thông tin sách không hợp lệ"));
 		
 		Comment comment = new Comment();
 		comment.setBook(book);

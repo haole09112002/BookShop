@@ -246,6 +246,11 @@ img {
     margin-bottom: 10px;
 }
 
+.book-label-no {
+    margin-bottom: 10px;
+}
+
+
 /* CSS cho tab vÃ  áº£nh nhá»� khi Ä‘Æ°á»£c chá»�n */
 /* .preview-thumbnail li.active a, */
 .preview-thumbnail li.active a img {
@@ -258,9 +263,7 @@ img {
     max-width: 100%;
 }
 
-.quantity {
-    padding: 0;
-}
+
 
 .book-title {
     margin-bottom: 0;
@@ -274,6 +277,10 @@ img {
 .book-label {
     width: 25%;
 
+}
+
+.book-info {
+    width: 100%;
 }
 
 .book-info-row {
@@ -379,4 +386,8 @@ img {
 
 .path {
     margin-top: 10px;
+}
+
+.action {
+    padding-top: 20px;
 }

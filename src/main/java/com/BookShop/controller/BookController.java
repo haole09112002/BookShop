@@ -1,23 +1,15 @@
 package com.BookShop.controller;
 
-
-import java.lang.reflect.Array;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,25 +18,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.jsf.FacesContextUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.BookShop.entities.Author;
 import com.BookShop.entities.Book;
-import com.BookShop.entities.BookImage;
 import com.BookShop.entities.BookStatusEnum;
 import com.BookShop.entities.Category;
-import com.BookShop.entities.User;
 import com.BookShop.payload.BookResponse;
 import com.BookShop.payload.UserPrincipal;
 import com.BookShop.services.AuthorService;
 import com.BookShop.services.BookImageService;
 import com.BookShop.services.BookService;
-
 import com.BookShop.services.CategoryService;
 import com.BookShop.services.CommentService;
 import com.BookShop.services.InvoiceService;
-import com.BookShop.services.impl.FileStorageService;
+
 
 
 @Controller
@@ -66,24 +53,17 @@ public class BookController {
 	@Autowired
 	private AuthorService authorService;
 	
-//
-//	@Autowired
-//	private FileStorageService fileStorageService;
-	
 	@Autowired
 	private BookImageService bookImageService;
 
 
 	@GetMapping("/books/categories/{id}")
 	public String getBookByCategoryId(Model model,@PathVariable long id, @RequestParam(required = false, defaultValue = "0") int page,  @RequestParam(required = false, defaultValue = "10") int size) {
-		
-		if(id == 0L) {
-			
-		}
 		model.addAttribute("bookPages", bookService.findByCategoryId(page, size, id));
 		model.addAttribute("categories", categoryService.findRootCategory());
 		return "book-result";
 	}
+	
 	@GetMapping("/books/{id}")
 	public String getBookDetails(@PathVariable(name = "id") Long id, @RequestParam(defaultValue = "0", required = true) int page,
 			@RequestParam(defaultValue = "5") int size,Principal principal, Model model) {
@@ -265,9 +245,7 @@ public class BookController {
     		book.setAuthor(author);
     		book.setCreatedBy(userPrincipal.getId());
     		book.setCreatedDate(LocalDateTime.now());
-//    		book =	bookService.saveBook(book);
-//    		System.out.println(book.getBookImages().size());
-//    		List<BookImage> bookImages = new ArrayList<BookImage>();
+
     	
     		if(images != null) {
     			for(MultipartFile img : images )

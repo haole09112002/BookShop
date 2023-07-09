@@ -1,9 +1,9 @@
 package com.BookShop.services.impl;
 
-import java.io.Console;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,8 @@ import com.BookShop.entities.Book;
 import com.BookShop.entities.Cart;
 import com.BookShop.entities.CartItem;
 import com.BookShop.entities.User;
+import com.BookShop.exceptions.AppException;
+import com.BookShop.exceptions.NotFoundException;
 import com.BookShop.payload.CartItemResponse;
 import com.BookShop.payload.Item;
 import com.BookShop.repositories.BookRepository;
@@ -40,7 +42,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
 	@Override
 	public CartItemResponse checkCartItem(Item cartItem) {
-		Book book = bookRepo.findById(cartItem.getId()).orElseThrow(()->new RuntimeException("ll"));
+		Book book = bookRepo.findById(cartItem.getId()).orElseThrow(()->new NotFoundException("Sách không tồn tại"));
 		if(book.getQuantity() < cartItem.getQuantity()) {
 			return new CartItemResponse(book.getId(), book.getTitle(), book.getBookImages().get(0).getUrl(), book.getQuantity(), book.getPrice());
 		}
@@ -51,7 +53,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	public List<CartItemResponse> getCartItems(List<Item> cartItems) {
 		List<CartItemResponse> responseCartItems = new ArrayList<CartItemResponse>();
 		for (Item item : cartItems) {
-			Book book = bookRepo.findById(item.getId()).orElseThrow(()->new RuntimeException("ll"));
+			Book book = bookRepo.findById(item.getId()).orElseThrow(()->new NotFoundException("Sách không tồn tại"));
 			responseCartItems.add(new CartItemResponse(book.getId(), book.getTitle(), book.getBookImages().get(0).getUrl(), item.getQuantity(), book.getPrice()));
 		}
 		return responseCartItems;
@@ -72,7 +74,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		Book book = bookRepo.findById(item.getId()).orElse(null);
 		if(cart == null) {
 			System.out.println(username);
-			User user = userRepository.findByUsername(username).orElseThrow(()->new RuntimeException("ccc"));
+			User user = userRepository.findByUsername(username).orElseThrow(()->new AppException("Có lỗi xảy ra, người dùng không hợp lệ"));
 			cart= new Cart();
 			cart.setUser(user);
 			cart = cartRepository.save(cart);
@@ -132,7 +134,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	public boolean removeCartItem(long bookId, String  username) {
 		try {
 			CartItem cartItem = cartItemRepository.findByUsernameAndBookId(username, bookId);
-		 System.out.println("Id :"+cartItem.getId());	
 		cartItemRepository.deleteById(cartItem.getId());
 		return true;
 		} catch (Exception e) {

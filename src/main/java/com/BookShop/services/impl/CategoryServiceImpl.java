@@ -3,10 +3,10 @@ package com.BookShop.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
 
 import com.BookShop.entities.Category;
+import com.BookShop.exceptions.NotFoundException;
 import com.BookShop.payload.CategoryRequest;
 import com.BookShop.repositories.CategoryRepository;
 import com.BookShop.services.CategoryService;
@@ -19,19 +19,16 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Override
 	public Category findById(long id) {
-		return categoryRepo.findById(id).orElseThrow(()-> new RuntimeException(" "));
-		
+		return categoryRepo.findById(id).orElseThrow(()-> new NotFoundException("Không tìm thấy danh mục có id: " + id));
 	}
 
 	@Override
 	public List<Category> findByParentCategoryId(long parentId) {
-		// TODO Auto-generated method stub
 		return categoryRepo.findByParentCategoryId(parentId);
 	}
 
 	@Override
 	public List<Category> findAll() {
-		// TODO Auto-generated method stub
 		return categoryRepo.findAll();
 	}
 
@@ -42,7 +39,6 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public List<Category> findTop5() {
-		
 		return categoryRepo.findTop5();
 	}
 	

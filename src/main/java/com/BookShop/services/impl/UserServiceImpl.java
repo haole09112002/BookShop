@@ -9,13 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.BookShop.entities.Book;
-import com.BookShop.entities.BookStatusEnum;
+
 import com.BookShop.entities.Role;
 import com.BookShop.entities.RoleEnum;
 import com.BookShop.entities.User;
+import com.BookShop.exceptions.AppException;
+import com.BookShop.exceptions.NotFoundException;
 import com.BookShop.payload.UserInfoRequest;
-import com.BookShop.payload.UserRequest;
+
 import com.BookShop.repositories.RoleRepository;
 import com.BookShop.repositories.UserRepository;
 import com.BookShop.services.UserService;
@@ -82,24 +83,22 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public boolean giveAdmin(String username) {
-		User user = userRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("u"));
+		User user = userRepository.findByUsername(username).orElseThrow(()-> new NotFoundException("Username không tồn tại"));
 		List<Role> roles = new ArrayList<Role>();
 	
-		Role roleAdmin = roleRepository.findByName(RoleEnum.ROLE_ADMIN).orElseThrow(()->  new RuntimeException("lỗi to"));
-		Role roleUser = roleRepository.findByName(RoleEnum.ROLE_USER).orElseThrow(()->  new RuntimeException());
+		Role roleAdmin = roleRepository.findByName(RoleEnum.ROLE_ADMIN).orElseThrow(()->  new AppException("Không thể trao quyền Admin"));
+		Role roleUser = roleRepository.findByName(RoleEnum.ROLE_USER).orElseThrow(()->  new AppException("Không thể trao quyền Admin"));
 		roles.add(roleAdmin);
 		roles.add(roleUser);
 		user.setRoles(roles);
-		System.out.println(roles.size()+" xxx");
 		user =	userRepository.save(user);
-		System.out.println(user.getRoles().toString());
 		return true;
 	}
 
 	@Override
 	public boolean removeAdmin(String username) {
-		User user = userRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("u"));
-		Role roleUser = roleRepository.findByName(RoleEnum.ROLE_USER).orElseThrow(()->  new RuntimeException());
+		User user = userRepository.findByUsername(username).orElseThrow(()-> new NotFoundException("Username không tồn tại"));
+		Role roleUser = roleRepository.findByName(RoleEnum.ROLE_USER).orElseThrow(()->new AppException("Có lỗi xảy ra"));
 		List<Role> roles = new ArrayList<Role>();
 		roles.add(roleUser);
 		user.setRoles(roles);
@@ -110,7 +109,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@Transactional
 	public boolean blockUser(String username) {
-		User user = userRepository.findByUsername(username).orElseThrow(()->new RuntimeException("   "));
+		User user = userRepository.findByUsername(username).orElseThrow(()->new NotFoundException("Username không tồn tại"));
 		user.setAccountNonBlock(false);
 		userRepository.save(user);
 		return true;
@@ -119,7 +118,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@Transactional
 	public boolean activeUser(String username) {
-		User user = userRepository.findByUsername(username).orElseThrow(()->new RuntimeException("   "));
+		User user = userRepository.findByUsername(username).orElseThrow(()-> new NotFoundException("Username không tồn tại"));
 		user.setAccountNonBlock(true);
 		userRepository.save(user);
 		return true;
@@ -150,8 +149,7 @@ public class UserServiceImpl implements UserService{
         	  Path<String> fieldPathPhone = root.get("phone");
         	  Path<String> fieldPathUsername = root.get("username");
         	  Predicate predicate1 = criteriaBuilder.like(fieldPathPhone, '%' +keyword+"%");
-        	  Predicate predicate2 = criteriaBuilder.like(fieldPathUsername, '%' +keyword+"%");
-//        	  Predicate predicate3 = criteriaBuilder.like(fieldPathPhone, '%' +keyword+"%");
+        	  Predicate predicate2 = criteriaBuilder.like(fieldPathUsername, '%' +keyword+"%");    
         	  predicates.add(criteriaBuilder.or(predicate1,predicate2));
         }
         criteriaQuery.select(root).where(predicates.toArray(new Predicate[0]));

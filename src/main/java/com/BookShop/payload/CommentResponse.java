@@ -2,7 +2,6 @@ package com.BookShop.payload;
 
 import java.time.LocalDateTime;
 
-import com.BookShop.entities.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

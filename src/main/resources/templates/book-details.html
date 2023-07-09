@@ -8,18 +8,8 @@
     <title>eCommerce Product Detail</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link th:href="@{/css/style.css}" rel="stylesheet">
-    <!-- <link th:href="@{/css/listbook.css}" rel="stylesheet"> -->
-
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <!-- <link th:href="@{/css/all.min.css}" rel="stylesheet"> -->
-
-
-
     <meta charset="UTF-8">
-
-
-
-    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <link th:href="@{/css/book-details.css}" rel="stylesheet">
 </head>
@@ -50,7 +40,6 @@
                                 <img th:src="${img.url}" style="max-width: 100%; max-height: 100%;" />
 
                             </div>
-
                         </div>
                         <ul class="preview-thumbnail nav nav-tabs">
                             <li th:if="${not #lists.isEmpty(book.bookImages)}" th:each="img : ${book.bookImages}"
@@ -77,20 +66,28 @@
                             </div>
                             <span class="review-no" th:text=" ${#lists.size(comments)} + ' reviews'"></span>
                         </div>
-                        <div class="book-label">
-                            <span class="book-label-no">Nhà xuất bản:
-                                <strong class="bold" th:text="${book.publisher}"></strong>
-                            </span>
-                            <span class="book-label-no">Nhà cung cấp:
-                                <strong class="bold" th:text="${book.supplier}"></strong>
-                            </span>
-                            <span class="book-label-no">Tác giả:
-                                <a th:href="@{/author}"><strong class="bold"
-                                        th:text="${book.author.fullname}"></strong></a>
-                            </span>
-                            <span class="book-label-no">Hình thức bìa:
-                                <strong class="bold" th:text="${book.formality}"></strong>
-                            </span>
+                        <div class="rating">
+                            <div class="book-label-no">
+                                <span>Nhà xuất bản:
+                                    <strong class="bold" th:text="${book.publisher}"></strong>
+                                </span>
+                            </div>
+                            <div class="book-label-no">
+                                <span>Nhà cung cấp:
+                                    <strong class="bold" th:text="${book.supplier}"></strong>
+                                </span>
+                            </div>
+                            <div class="book-label-no">
+                                <span>Tác giả:
+                                    <a th:href="@{/author}"><strong class="bold"
+                                            th:text="${book.author.fullname}"></strong></a>
+                                </span>
+                            </div>
+                            <div class="book-label-no">
+                                <span>Hình thức bìa:
+                                    <strong class="bold" th:text="${book.formality}"></strong>
+                                </span>
+                            </div>
                         </div>
 
                         <h4 class="price-text">current price: <span id="price" th:text="${book.price}"></span>
@@ -99,11 +96,12 @@
                         <!-- <h4 class="price-text">current price: <span id="price"
                                 th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
                         </h4> -->
-                        <div class="col quantity">
+                        <div class="rating">
                             <label for="quantity">Số lượng sách:</label>
                             <input type="number" id="quantity" name="quantity" min="1" max="100" step="1" value="1"
                                 class="orange-input">
                         </div>
+
 
 
 
@@ -119,8 +117,8 @@
                                     cart</button>
                             </th:block>
 
-                            <button class="like btn btn-default" type="button"><span
-                                    class="fa fa-heart"></span></button>
+                            <!-- <button class="like btn btn-default" type="button"><span
+                                    class="fa fa-heart"></span></button> -->
                         </div>
                     </div>
                 </div>

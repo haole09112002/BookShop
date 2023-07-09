@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>eCommerce Product Detail</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+</head>
+
+<body>
+    <div th:replace="~{topnav}"></div>
+    <section class="pt-5 pb-5 mt-0 align-items-center d-flex bg-dark"
+        style="min-height: 100vh; background-size: cover; background-image: url(https://images.unsplash.com/photo-1477346611705-65d1883cee1e?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1920&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=c0d43804e2c7c93143fe8ff65398c8e9);">
+        <div class="container-fluid">
+            <div class="row  justify-content-center align-items-center d-flex-row text-center h-100">
+                <div class="col-12 col-md-4 col-lg-3   h-50 ">
+                    <div class="card shadow">
+                        <div class="card-body mx-auto">
+                            <h4 class="card-title mt-3 text-center">LỖI</h4>
+
+                            <span th:text="error.success"></span>
+                            <span th:text="error.error"></span>
+                            <span th:text="error.status"></span>
+                            <span th:text="error.messages"></span>
+                            <span th:text="error.timestamp"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
+<!-- Pills content -->

@@ -85,7 +85,6 @@ public class InvoiceController {
 		if(authentication != null) {
 			List<Invoice> invoices = invoiceService.getByKeyword(keyword, searchType);
 			model.addAttribute("invoices",invoices) ;
-		
 		 return "/admin/order";
 		}
 		else {

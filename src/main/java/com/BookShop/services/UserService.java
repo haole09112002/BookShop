@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.BookShop.entities.User;
 import com.BookShop.payload.UserInfoRequest;
-import com.BookShop.payload.UserRequest;
+
 
 public interface UserService {
 	List<User> getAll();

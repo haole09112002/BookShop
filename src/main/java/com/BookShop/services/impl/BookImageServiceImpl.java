@@ -10,7 +10,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.BookShop.entities.Book;
 import com.BookShop.entities.BookImage;
 import com.BookShop.repositories.BookImageRepository;
-import com.BookShop.repositories.BookRepository;
 import com.BookShop.services.BookImageService;
 
 import jakarta.transaction.Transactional;
@@ -40,7 +39,6 @@ public class BookImageServiceImpl implements BookImageService {
                 .path("/downloadFile/")
                 .path(fileName)
                 .toUriString();
-//        Book book = bookRepository.findById(bookId).orElseThrow(()->new RuntimeException());
         BookImage bookImage = new BookImage();
         bookImage.setName(fileName);
         bookImage.setUrl(imgUrl);
@@ -53,6 +51,12 @@ public class BookImageServiceImpl implements BookImageService {
 	@Override
 	@Transactional
 	public void removeBooksImage(List<Long> imagesId) {
-		imagesId.forEach(id -> 	bookImageRepository.deleteById(id));
+		imagesId.forEach(id -> 	{
+			
+			bookImageRepository.deleteById(id);
+			
+		
+		});
+		
 	}
 }

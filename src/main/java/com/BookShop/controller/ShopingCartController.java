@@ -43,9 +43,6 @@ public class ShopingCartController {
 	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
-	@Autowired
-	private CategoryService categoryService;
-	
 	
 	@GetMapping("/bookshop/shoping-cart")
 	public String showShopingCart(Authentication authentication, Model model) {

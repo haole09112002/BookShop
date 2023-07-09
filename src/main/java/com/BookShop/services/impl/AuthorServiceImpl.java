@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.BookShop.entities.Author;
+import com.BookShop.exceptions.NotFoundException;
 import com.BookShop.payload.AuthorRequest;
 import com.BookShop.repositories.AuthorRepository;
 import com.BookShop.services.AuthorService;
@@ -24,7 +25,7 @@ public class AuthorServiceImpl implements AuthorService {
 
 	@Override
 	public Author findById(long id) {
-		return	authorRepository.findById(id).orElseThrow(()->new RuntimeException("nnn"));
+		return	authorRepository.findById(id).orElseThrow(()->new NotFoundException("Không tìm thấy tác giả có id: " +id));
 	}
 
 	@Override

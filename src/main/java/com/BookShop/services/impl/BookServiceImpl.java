@@ -12,10 +12,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.BookShop.controller.BookController;
-import com.BookShop.entities.Author;
 import com.BookShop.entities.Book;
 import com.BookShop.entities.BookStatusEnum;
+import com.BookShop.exceptions.NotFoundException;
 import com.BookShop.payload.PagedResponse;
 import com.BookShop.repositories.BookRepository;
 import com.BookShop.services.BookService;
@@ -29,8 +28,7 @@ import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import jakarta.persistence.criteria.Selection;
-import jakarta.transaction.Transactional;
+
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -76,99 +74,13 @@ public class BookServiceImpl implements BookService {
         criteriaQuery.select(root).where(predicates.toArray(new Predicate[0]));
         TypedQuery<Book> typedQuery = entityManager.createQuery(criteriaQuery);
         
-//        int page = Integer.parseInt((String) filters.getOrDefault("page",  "0"));	
-//        int size =   Integer.parseInt((String) filters.getOrDefault("size",  "9"));
+
         return typedQuery.getResultList();
-
-        
-//        typedQuery.setFirstResult(page * size);
-//        typedQuery.setMaxResults(size);
-//        List<Book> books = typedQuery.getResultList();
-	}
-
-	@Override
-	public PagedResponse<Book> findByCategoryIdAndSearch(int page, int size, Long categoryId, 
-			String keywork,String sortType, String authorName,
-			double minPrice, double maxPrice) {
-		// validate page and size
-
-		PageRequest pageRequest = PageRequest.of(page, size);
-		Page<Book> bookPages = null;
-		if (categoryId == (long)0) // all category
-		{	
-			LOGGER.info(categoryId + " search");
-			bookPages = bookRepository.search(keywork, authorName, minPrice, maxPrice, pageRequest);
-			LOGGER.info("Books "+bookPages.getContent().size());
-		} else {
-			LOGGER.info(categoryId + "hahah");
-			bookPages = bookRepository.searchByCategoryId(categoryId, keywork, authorName, minPrice, maxPrice, sortType, pageRequest);
-		}
-		
-		return new PagedResponse<Book>(bookPages.getContent(), bookPages.getNumber(), bookPages.getSize(),
-				bookPages.getTotalElements(), bookPages.getTotalPages(), bookPages.isLast());
-	}
-
-	@Override
-	public PagedResponse<Book> findByKeywordAndSortAndPrice(int page, int size, String keywork, String sort,
-			double minPrice, double maxPrice) {
-		PageRequest pageRequest = PageRequest.of(page, size);
-		Page<Book> bookPages = bookRepository.findByKeywordAndPriceAndSort(keywork,sort,minPrice, maxPrice, pageRequest);
-		return new PagedResponse<Book>(bookPages.getContent(), bookPages.getNumber(), bookPages.getSize(),
-				bookPages.getTotalElements(), bookPages.getTotalPages(), bookPages.isLast());
-	}
-	
-	@Override
-	public PagedResponse<Book> findByKeywordAndPrice(int page, int size, String keywork, 
-			double minPrice, double maxPrice) {
-		PageRequest pageRequest = PageRequest.of(page, size);
-		Page<Book> bookPages = bookRepository.findByKeywordAndPrice(keywork,minPrice, maxPrice, pageRequest);
-		return new PagedResponse<Book>(bookPages.getContent(), bookPages.getNumber(), bookPages.getSize(),
-				bookPages.getTotalElements(), bookPages.getTotalPages(), bookPages.isLast());
-	}
-
-	@Override
-	public PagedResponse<Book> findByKeyword(int page, int size, String keyword) {
-		PageRequest pageRequest = PageRequest.of(page, size);
-		Page<Book> bookPages = bookRepository.findByKeyword(keyword, pageRequest);
-		return new PagedResponse<Book>(bookPages.getContent(), bookPages.getNumber(), bookPages.getSize(),
-				bookPages.getTotalElements(), bookPages.getTotalPages(), bookPages.isLast());
-	}
-
-	@Override
-	public PagedResponse<Book> findByKeywordAndSort(int page, int size, String keyword, String sort) {
-		PageRequest pageRequest = PageRequest.of(page, size);
-		Page<Book> bookPages = bookRepository.findByKeywordAndSort(keyword, sort, pageRequest);
-		return new PagedResponse<Book>(bookPages.getContent(), bookPages.getNumber(), bookPages.getSize(),
-				bookPages.getTotalElements(), bookPages.getTotalPages(), bookPages.isLast());
-	}
-
-	@Override
-	public PagedResponse<Book> findBySortAndPrice(int page, int size, String sort, double minPrice, double maxPrice) {
-		PageRequest pageRequest = PageRequest.of(page, size);
-		Page<Book> bookPages = bookRepository.findByPriceAndSort(sort,minPrice, maxPrice, pageRequest);
-		return new PagedResponse<Book>(bookPages.getContent(), bookPages.getNumber(), bookPages.getSize(),
-				bookPages.getTotalElements(), bookPages.getTotalPages(), bookPages.isLast());
-	}
-
-	@Override
-	public PagedResponse<Book> findByPrice(int page, int size, double minPrice, double maxPrice) {
-		PageRequest pageRequest = PageRequest.of(page, size);
-		Page<Book> bookPages = bookRepository.findByprice(minPrice, maxPrice, pageRequest);
-		return new PagedResponse<Book>(bookPages.getContent(), bookPages.getNumber(), bookPages.getSize(),
-				bookPages.getTotalElements(), bookPages.getTotalPages(), bookPages.isLast());
-	}
-
-	@Override
-	public PagedResponse<Book> sort(int page, int size, String sort) {
-		PageRequest pageRequest = PageRequest.of(page, size);
-		Page<Book> bookPages = bookRepository.sort(sort, pageRequest);
-		return new PagedResponse<Book>(bookPages.getContent(), bookPages.getNumber(), bookPages.getSize(),
-				bookPages.getTotalElements(), bookPages.getTotalPages(), bookPages.isLast());
 	}
 
 	@Override
 	public Book findById(long id) {
-		return bookRepository.findById(id).orElseThrow(()-> new RuntimeException("Không tìm thấy sách có id: " +id));
+		return bookRepository.findById(id).orElseThrow(()-> new NotFoundException("Không tìm thấy sách có id: " +id));
 		
 	}
 
@@ -286,7 +198,7 @@ public class BookServiceImpl implements BookService {
 
 		@Override
 		public Book updateBookStatus(long bookId, Boolean isBlock) {
-			Book book = bookRepository.findById(bookId).orElseThrow(()-> new RuntimeException("k"));
+			Book book = bookRepository.findById(bookId).orElseThrow(()-> new NotFoundException("Không tìm thấy sách có id: "+ bookId + " để cập nhật thông tin."));
 			if(isBlock) {
 				book.setStatus(BookStatusEnum.BLOCK);
 			}
