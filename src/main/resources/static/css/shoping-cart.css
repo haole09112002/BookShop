@@ -61,17 +61,17 @@
     }
 }
 
-.summary .col-2 {
+/* .summary .col-2 {
     padding: 0;
-}
+} */
 
-.summary .col-10 {
+/* .summary .col-10 {
     padding: 0;
-}
+} */
 
-.row {
+/* .row {
     margin: 0;
-}
+} */
 
 .title {
     margin-top: 21px;
@@ -84,14 +84,6 @@
     width: 100%;
 }
 
-.col-2,
-.col {
-    padding: 0 1vh;
-}
-
-a {
-    padding: 0 1vh;
-}
 
 .close {
     margin-left: auto;
@@ -127,14 +119,14 @@ select {
     background-color: rgb(247, 247, 247);
 }
 
-input {
+/* input {
     border: 1px solid rgba(0, 0, 0, 0.137);
     padding: 1vh;
     margin-bottom: 4vh;
     outline: none;
     width: 100%;
     background-color: rgb(247, 247, 247);
-}
+} */
 
 input:focus::-webkit-input-placeholder {
     color: transparent;

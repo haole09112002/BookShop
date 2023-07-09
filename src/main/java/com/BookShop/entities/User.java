@@ -1,6 +1,7 @@
 
 package com.BookShop.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +10,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import org.springframework.web.jsf.FacesContextUtils;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -21,6 +22,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,8 +33,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class User implements UserDetails {
+
+public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,16 +43,16 @@ public class User implements UserDetails {
 	@Column
 	private String fullName;
 
-	@Column
+	@Column(unique = true, nullable = false)
 	private String username;
 
 	@Column
 	private String phone;
 
-	@Column
+	@Column(unique = true, nullable = false)
 	private String email;
 
-	@Column
+	@Column(nullable = false)
 	private String password;
 
 	@Column
@@ -58,51 +61,136 @@ public class User implements UserDetails {
 	@Column
 	private LocalDateTime modifiedDate;
 
-	@Column
+	@Column(nullable = true)
 	private long createdBy;
 
-	@Column
+	@Column(nullable = true)
 	private long modifiedBy;
 	
-	@Column
+	@Column(nullable = false )
 	private boolean accountNonBlock;
+	
+	@OneToOne(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+	private Cart cart;
+	
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)	// mac dinh la lazy
+	private List<Comment> comments;
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<SimpleGrantedAuthority> grantList =new ArrayList<SimpleGrantedAuthority>(); 
-		for (Role role : this.roles) {
-//			LOGGER.info(role.getName());
-			grantList.add(new SimpleGrantedAuthority(role.getName().toString()));
-		}
-		return grantList;
+	public long getId() {
+		return id;
 	}
 
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
+	public void Id(long id) {
+		this.id = id;
 	}
 
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public LocalDateTime getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(LocalDateTime modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public long getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(long createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public long getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(long modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public boolean isAccountNonBlock() {
 		return accountNonBlock;
 	}
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
+	public void setAccountNonBlock(boolean accountNonBlock) {
+		this.accountNonBlock = accountNonBlock;
 	}
 
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		 this.roles = (this.roles == null) ?  new ArrayList<Role>(roles) :  roles;
 	}
 
 }

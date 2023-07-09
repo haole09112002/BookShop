@@ -3,6 +3,7 @@ package com.BookShop.services;
 import java.util.List;
 
 import com.BookShop.entities.Category;
+import com.BookShop.payload.CategoryRequest;
 
 public interface CategoryService {
 	Category findById(long id);
@@ -12,4 +13,8 @@ public interface CategoryService {
 	List<Category> findAll();
 	
 	List<Category> findRootCategory();
+	
+	List<Category> findTop5();
+
+	Category save(CategoryRequest categoryRequest);
 }

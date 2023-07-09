@@ -1,13 +1,29 @@
 #mynav {
     background: linear-gradient(to right, #e88009, #eaa15c);
-    padding: 0 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 70px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.navbar-brand {
-    margin-right: auto;
-    margin-left: auto;
+#logo {
+    padding-left: 0px;
 }
 
-.navbar-nav {
-    margin-left: auto;
+#login {
+    padding-right: 0px;
+}
+
+
+#btnSearch {
+    color: #fff;
+    background-color: rgb(161, 11, 11);
+}
+
+
+#btnSearch :hover {
+    background-color: rgb(240, 66, 66);
 }

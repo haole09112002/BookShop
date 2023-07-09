@@ -1,0 +1,23 @@
+.price {
+    color: #d22121;
+}
+
+#category {
+    padding: 0 100px;
+}
+
+
+.category-item {
+    text-decoration: none;
+    /* Bá»� gáº¡ch chÃ¢n */
+    color: inherit;
+}
+
+#dropdownSort {
+    background-color: #d22121;
+}
+
+.active-link {
+    font-weight: bold;
+    color: orange
+}

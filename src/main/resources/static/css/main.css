@@ -5,6 +5,22 @@ body {
 }
 
 .container {
-    width: 85%;
-    max-width: 100%;
+    width: 85% !important;
+    max-width: 100% !important;
+}
+
+
+
+
+.path {
+    text-decoration: none;
+    color: black;
+}
+
+.active {
+    color: blue;
+}
+
+.back {
+    color: red;
 }

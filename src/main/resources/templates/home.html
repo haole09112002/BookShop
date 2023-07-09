@@ -1,38 +1,112 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 
 <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/listbook.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/home.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- <link th:href="@{/css/all.min.css}" rel="stylesheet"> -->
+
+
+
     <meta charset="UTF-8">
-    <title>Home</title>
+
+
+
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link th:href="@{/css/book-details.css}" rel="stylesheet">
 </head>
 
-<body>
-    <h1>Home</h1>
+<body onload="loadData()">
+    <div th:replace="~{topnav}"></div>
+    <div class="container">
+        <div class="card">
+            <div class="container-fliud">
+                <div class="wrapper row">
+                    <div class="preview col-md-8">
 
-    <table>
-        <!-- Hiển thị danh sách sách -->
-        <tr th:each="book : ${bookPages.content}">
-            <td th:text="${book.title}"></td>
-            <td th:text="${book.language}"></td>
-        </tr>
-    </table>
+                        <div class="preview-pic tab-content">
 
-    <!-- Hiển thị phân trang -->
-    <div>
+                            <img
+                                src="https://bizweb.dktcdn.net/100/047/782/themes/877502/assets/slider_1.jpg?1676015839422">
 
-        <ul class="pagination">
-            <li th:class="${bookPages.page == 0} ? 'disabled' : 'active'">
-                <a th:href="@{/home(page=${bookPages.page - 1})}">&laquo; Previous</a>
-            </li>
-            <li th:each="pageNumber : ${#numbers.sequence(0, bookPages.totalPages - 1)}">
-                <a th:href="@{/home(page=${pageNumber})}" th:text="${pageNumber + 1}"
-                   th:class="${pageNumber == bookPages.page} ? 'active' : ''"></a>
-            </li>
-            <li th:class="${bookPages.last == true} ? 'disabled' : 'active'">
-                <a th:href="@{/home(page=${bookPages.page + 1})}">Next &raquo;</a>
-            </li>
-        </ul>
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="details col-md-4">
+                        <img
+                            src="https://bizweb.dktcdn.net/100/047/782/themes/877502/assets/slider_banner_top.jpg?1676015839422">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-book-info card">
+            <div class=" container-fliud">
+
+                <div class="card-header row justify-content-between">
+                    <div class="col-xl-5 col-lg-5 col-md-12">
+
+                        <h5 class="book-title"><strong>SẢN PHẨM MỚI NHẤT</strong></h5>
+
+                    </div>
+                    <div class="col-xl-7 col-lg-7 col-md-12  d-flex justify-content-end">
+                        <th:block th:each="item : ${categories}">
+
+                            <a class="my-btn" th:onclick="'getTop5ByCategoryId('+ ${item.id}+', this)'"
+                                th:text="${item.decription}"></a>
+
+                        </th:block>
+                        <th:block th:if="${categories != null}">
+                            <input id="firstCategoryId" type="hidden" th:value="${categories[0].id}">
+                        </th:block>
+                        <!-- <button class="btn btn-primary my-btn" type="submit">Xin caho tát cas</button>
+                        <button class="btn btn-primary my-btn" type="submit">Xin caho tát cas</button>
+                        <button class="btn btn-primary my-btn" type="submit">Xin caho tát cas</button> -->
+                    </div>
+                </div>
+                <div id="topCategory">
+
+                </div>
+
+
+            </div>
+
+
+
+
+        </div>
+        <div class="card-book-info card">
+            <div class=" container-fliud">
+                <div class="card-header">
+                    <h5 class="book-title"><strong>SẢN PHẨM BÁN CHẠY</strong></h5>
+                </div>
+                <div id="topSale">
+
+                </div>
+
+
+
+
+            </div>
+        </div>
     </div>
+
+
+
+    <div th:replace="~{footer}"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/home.js}"></script>
 </body>
 
 </html>

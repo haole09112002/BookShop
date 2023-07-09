@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>eCommerce Product Detail</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+</head>
+
+<body>
+    <div th:replace="~{topnav}"></div>
+    <section class="pt-5 pb-5 mt-0 align-items-center d-flex bg-dark"
+        style="min-height: 100vh; background-size: cover; background-image: url(https://images.unsplash.com/photo-1477346611705-65d1883cee1e?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1920&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=c0d43804e2c7c93143fe8ff65398c8e9);">
+        <div class="container-fluid">
+            <div class="row  justify-content-center align-items-center d-flex-row text-center h-100">
+                <div class="col-12 col-md-4 col-lg-3   h-50 ">
+                    <div class="card shadow">
+                        <div class="card-body mx-auto">
+                            <h4 class="card-title mt-3 text-center">Create Account</h4>
+                            <p class="text-center">Get started with your free account</p>
+
+                            <form method="post" th:object="${newUser}" th:action="@{/bookshop/users/new}" action="#">
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                                    </div>
+                                    <input class="form-control" placeholder="Full name" type="text" required
+                                        th:field="*{fullname}">
+                                </div>
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                                    </div>
+                                    <input class="form-control" placeholder="Email address" type="email" required
+                                        th:field="*{email}">
+                                </div>
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                                    </div>
+                                    <input class="form-control" placeholder="Phone: 0359355xxx" type="tel" required
+                                        pattern="^\d{10}$" th:field="*{phone}">
+                                </div>
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                    </div>
+                                    <input class="form-control" placeholder="Create password" type="password" required
+                                        th:field="*{createPassword}">
+                                </div>
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                    </div>
+                                    <input class="form-control" placeholder="Repeat password" type="password" required
+                                        th:field="*{repeatPassword}">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
+                                </div>
+                                <p class="text-center">Have an account?
+                                    <a th:href="@{/bookshop/login}">Log In</a>
+                                </p>
+                            </form>
+                            <span th:if="${message != null}" th:text="${message}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
+<!-- Pills content -->

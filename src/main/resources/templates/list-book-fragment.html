@@ -2,20 +2,25 @@
 <div class="row" th:fragment="list-book-fragment">
     <div class="col-12 mb-3">
         <div class="card-deck align-items-center">
-            <div class=" text-left" th:if="${booksByCategory.page != 0}">
-
-                <a th:href="@{'/books/' + ${book.id} + '?page='+ ${booksByCategory.page-1}}" class="arrow-prev"><i
-                        class="fas fa-arrow-left"></i></a>
+            <div class=" text-left" th:if="${books.page != 0}">
+                <block th:if="${type == 'category'}">
+                    <a th:onclick="'getBooksByCategory(' +${book.id}+ ',' + ${books.page-1}+')'" class="arrow-prev"><i
+                            class="fas fa-arrow-left"></i></a>
+                </block>
+                <block th:if="${type == 'author'}">
+                    <a th:onclick="'getBooksByAuthor(' +${book.id}+ ',' + ${books.page-1}+')'" class="arrow-prev"><i
+                            class="fas fa-arrow-left"></i></a>
+                </block>
             </div>
-            <div class="card border-0 position-relative" th:each="book : ${booksByCategory.content}">
+            <div class="card border-0 position-relative" th:each="book : ${books.content}">
                 <div class="card-img-top">
                     <img th:src="${#lists.isEmpty(book.bookImages)==true ? null : book.bookImages[0].url}"
                         class="img-fluid mx-auto d-block" alt="Card image cap">
                 </div>
                 <div class="card-body text-center">
                     <h4 class="card-title">
-                        <a th:href="@{'/books/' + ${book.id}}" class="font-weight-bold text-dark text-uppercase small"
-                            th:text="${book.title}"></a>
+                        <a th:href="@{'/bookshop/books/' + ${book.id}}"
+                            class="font-weight-bold text-dark text-uppercase small" th:text="${book.title}"></a>
                     </h4>
                     <h5 class="card-price small text-warning">
                         <i>
@@ -25,9 +30,17 @@
                     </h5>
                 </div>
             </div>
-            <div class=" text-right" th:if="${not booksByCategory.last}">
-                <a th:href="@{'/books/' + ${book.id} + '?page='+ ${booksByCategory.page+1}}" class="arrow-next"><i
-                        class="fas fa-arrow-right"></i></a>
+            <div class=" text-right" th:if="${not books.last}">
+
+                <block th:if="${type == 'category'}">
+                    <a th:onclick="'getBooksByCategory(' +${book.id}+ ',' + ${books.page+1}+')'" class="arrow-next"><i
+                            class="fas fa-arrow-right"></i></a>
+                </block>
+                <block th:if="${type == 'author'}">
+                    <a th:onclick="'getBooksByAuthor(' +${book.id}+ ',' + ${books.page+1}+')'" class="arrow-next"><i
+                            class="fas fa-arrow-right"></i></a>
+                </block>
+
             </div>
         </div>
     </div>

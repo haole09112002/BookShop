@@ -1,6 +1,10 @@
 package com.BookShop.entities;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.data.annotation.CreatedBy;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,6 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,7 +60,7 @@ public class Book {
 	@Column
 	private String formality;
 	
-	@Column
+	@Column(columnDefinition = "TEXT")
 	private String decription;
 	
 	@Column
@@ -66,6 +71,15 @@ public class Book {
 	
 	@Column
 	private String size;
+	
+	@Column
+	private int quantity;
+	
+	@Column 
+	private LocalDateTime createdDate;
+	
+	@Column
+	private long createdBy;
 	
 	@Enumerated(EnumType.STRING)
 	private BookStatusEnum status;
@@ -82,9 +96,17 @@ public class Book {
 	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)	// mac dinh la lazy
 	private List<InvoiceDetail> invoiceDetails;
 	
-	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "book",  cascade = CascadeType.ALL)
 	private List<BookImage> bookImages;
 	
+	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)	// mac dinh la lazy
+	private List<CartItem> cartItems;
+	
+	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)	// mac dinh la lazy
+	private List<Comment> comments;
 	
 	
+	public List<BookImage> getBookImages(){
+		return this.bookImages == null ? this.bookImages = new ArrayList<BookImage>() :this.bookImages;
+	}
 }

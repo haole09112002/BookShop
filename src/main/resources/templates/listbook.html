@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Books</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -8,277 +9,317 @@
     <link th:href="@{/css/listbook.css}" rel="stylesheet">
     <meta charset="UTF-8">
     <style>
-         .btn-fixed-size {
-        width: 150px;
-        flex-shrink: 0;
-    }
+        .btn-fixed-size {
+            width: 150px;
+            flex-shrink: 0;
+        }
     </style>
-   
+
 </head>
+
 <body>
-	<div th:replace="~{topnav}"></div>
+    <div th:replace="~{topnav}"></div>
     <button onclick="requestListBook()" type="button"></button>
     <a th:href="@{${location}}">x</a>
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <!-- Danh sách category -->
-            <div class="card">
-                <div class="card-header">Danh mục</div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        <!-- <div> -->
-                            <li  class="list-group-item" >
-                                <a class="category-item" th:href="@{/books/categories/0}">Tất cả</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Danh sách category -->
+                <div class="card">
+                    <div class="card-header">Danh mục</div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <!-- <div> -->
+                            <li class="list-group-item">
+                                <a class="category-item" th:href="@{/bookshop/books/categories/0}">Tất cả</a>
                             </li>
-                            <li th:each="category : ${categories}" class="list-group-item" >
-                                <a class="category-item" th:text="${category.decription}" th:href="@{/books/categories/} + ${category.id}"></a>
+                            <li th:each="category : ${categories}" class="list-group-item">
+                                <a class="category-item" th:text="${category.decription}"
+                                    th:href="@{/bookshop/books/categories/} + ${category.id}"></a>
                             </li>
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header">Giá</div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        <!-- <div> -->
-                            <li  class="list-group-item" >
-                                <form method="get" th:action="@{/books/search-books}" >
+                <div class="card">
+                    <div class="card-header">Giá</div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <!-- <div> -->
+                            <li class="list-group-item">
+                                <form method="get" th:action="@{/bookshop/books/search-books}">
                                     <!-- <div class="form-row"> -->
-                                      <div class="col">
-                                        <input id="minPrice" type="text" class="form-control" placeholder="Từ" name="minPrice" th:value="${minPrice != null ? minPrice : ''}">
-                                      </div>
-                                      <div>
+                                    <div class="col">
+                                        <input id="minPrice" type="text" class="form-control" placeholder="Từ"
+                                            name="minPrice" th:value="${minPrice != null ? minPrice : ''}">
+                                    </div>
+                                    <div>
                                         <span>-</span>
-                                      </div>
-                                      <div class="col">
-                                        <input id="maxPrice" type="text" class="form-control" placeholder="Đến" name="maxPrice" th:value="${maxPrice != null ? maxPrice : ''}">
-                                      </div>
-                                      <block th:if="${sort != null or sort != '' or #strings.isEmpty(sort)}">
-                                        <input type="hidden" class="form-control" placeholder="Từ" name="sort" th:value="${sort}">
-                                      </block>
-                                      <block th:if="${keyword != null or keyword != '' or #strings.isEmpty(sort)}">
-                                        <input type="hidden" class="form-control" placeholder="Từ" name="keyword" th:value="${keyword}">
-                                      </block>
-                                     
-                                      
-                                      <div class="col">
-                                        <button type="submit" class="form-control" value="Submit" onclick="">Submit</button>
-                                      </div>
-                                      
-                                
+                                    </div>
+                                    <div class="col">
+                                        <input id="maxPrice" type="text" class="form-control" placeholder="Đến"
+                                            name="maxPrice" th:value="${maxPrice != null ? maxPrice : ''}">
+                                    </div>
+                                    <block th:if="${sort != null or sort != '' or #strings.isEmpty(sort)}">
+                                        <input type="hidden" class="form-control" placeholder="Từ" name="sort"
+                                            th:value="${sort}">
+                                    </block>
+                                    <block th:if="${keyword != null or keyword != '' or #strings.isEmpty(sort)}">
+                                        <input type="hidden" class="form-control" placeholder="Từ" name="keyword"
+                                            th:value="${keyword}">
+                                    </block>
+
+
+                                    <div class="col">
+                                        <button type="submit" class="form-control" value="Submit"
+                                            onclick="">Submit</button>
+                                    </div>
+
+
                                     <!-- </div> -->
                                 </form>
                             </li>
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
-            <div class="card">
-                <div class="card-header">Lứa tuổi</div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        <!-- <div> -->
-                            <li >
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    <a class="m-checkbox-unchecked" th:href="@{/books/categories/0}">3+</a>
-                                </div>
-                            </li>
-
-                            <li >
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    <a class="m-checkbox-unchecked" th:href="@{/books/categories/0}">12-15</a>
-                                </div>
-                            </li>
-
-                            <li >
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    <a class="m-checkbox-unchecked" th:href="@{/books/categories/0}">18+</a>
-                                </div>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-md-9">
-            <div th:if="${bookPages != null}">
                 <div class="card">
-                    <div class="card-header">Sản phẩm</div>
-
-
-
-
-                    <div class="toolbar-top">
-                        <div class="toolbar  col-sm-12 col-xs-12 col-md-12">
-
-                            <div class="row bg-light">
-                                <div class="col-md-2">
-                                      <label >Sắp xếp theo</label>
+                    <div class="card-header">Lứa tuổi</div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <!-- <div> -->
+                            <li>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <a class="m-checkbox-unchecked" th:href="@{/bookshop/books/categories/0}">3+</a>
                                 </div>
-                                <div class="col-md-2"> 
-                                    <button class="btn btn-sm btn-outline-secondary btn-fixed-size " type="button">Mới nhất</button>
+                            </li>
+
+                            <li>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <a class="m-checkbox-unchecked" th:href="@{/bookshop/books/categories/0}">12-15</a>
                                 </div>
-                               
-                                <div class="col-md-2">
-                                    <div class="dropdown">
-                                        <a class="btn btn-secondary dropdown-toggle btn-sm btn-block btn-fixed-size " href="#" role="button" id="dropdownSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:data-value="${sort == 'asc'? 'asc' : (sort=='desc' ? 'desc' : '')}" th:text="${sort == 'asc'? 'Giá: Thấp đến Cao' : (sort=='desc' ? 'Giá: Cao đến Thấp' : 'Giá')}">
-                                          Giá
-                                        </a>
+                            </li>
 
-                                   
+                            <li>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <a class="m-checkbox-unchecked" th:href="@{/bookshop/books/categories/0}">18+</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-                                        <div class="dropdown-menu dropdown-menu-sm" aria-labelledby="dropdownMenuLink">
-                                           
+            </div>
+            <div class="col-md-9">
+                <div th:if="${bookPages != null}">
+                    <div class="card">
+                        <div class="card-header">Sản phẩm</div>
 
-                                            <block th:if="${keyword == null}"> 
-                                                <a class="dropdown-item" th:href="@{/books/search-books(sort='asc', maxPrice=${maxPrice != null ? maxPrice : ''}, minPrice=${minPrice != null ? minPrice : null})}" onclick="updateDropdown('Giá: Thấp đến Cao')" th:data-value="asc">Giá: Thấp đến Cao</a>
-                                                <a class="dropdown-item" th:href="@{/books/search-books(sort='desc')}" onclick="updateDropdown('Giá: Cao đến Thấp')" th:data-value="desc">Giá: Cao đến Thấp</a>
-                                                <!-- <a class="dropdown-item" href="#" onclick="updateDropdown('Giá: Thấp đến Cao')" th:data-value="asc">Giá: Thấp đến Cao</a>
+
+
+
+                        <div class="toolbar-top">
+                            <div class="toolbar  col-sm-12 col-xs-12 col-md-12">
+
+                                <div class="row bg-light">
+                                    <div class="col-md-2">
+                                        <label>Sắp xếp theo</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-sm btn-outline-secondary btn-fixed-size "
+                                            type="button">Mới nhất</button>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="dropdown">
+                                            <a class="btn btn-secondary dropdown-toggle btn-sm btn-block btn-fixed-size "
+                                                href="#" role="button" id="dropdownSort" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false"
+                                                th:data-value="${sort == 'asc'? 'asc' : (sort=='desc' ? 'desc' : '')}"
+                                                th:text="${sort == 'asc'? 'Giá: Thấp đến Cao' : (sort=='desc' ? 'Giá: Cao đến Thấp' : 'Giá')}">
+                                                Giá
+                                            </a>
+
+
+
+                                            <div class="dropdown-menu dropdown-menu-sm"
+                                                aria-labelledby="dropdownMenuLink">
+
+
+                                                <block th:if="${keyword == null}">
+                                                    <a class="dropdown-item"
+                                                        th:href="@{/bookshop/books/search-books(sort='asc', maxPrice=${maxPrice != null ? maxPrice : ''}, minPrice=${minPrice != null ? minPrice : null})}"
+                                                        onclick="updateDropdown('Giá: Thấp đến Cao')"
+                                                        th:data-value="asc">Giá: Thấp đến Cao</a>
+                                                    <a class="dropdown-item"
+                                                        th:href="@{/bookshop/books/search-books(sort='desc')}"
+                                                        onclick="updateDropdown('Giá: Cao đến Thấp')"
+                                                        th:data-value="desc">Giá: Cao đến Thấp</a>
+                                                    <!-- <a class="dropdown-item" href="#" onclick="updateDropdown('Giá: Thấp đến Cao')" th:data-value="asc">Giá: Thấp đến Cao</a>
                                                 <a class="dropdown-item" href="#" onclick="updateDropdown('Giá: Cao đến Thấp')" th:data-value="desc">Giá: Cao đến Thấp</a> -->
 
-                                            </block>
-                                            <block th:if="${keyword != null}"> 
-                                                <a class="dropdown-item" th:href="@{/books/search-books(sort='asc',keyword=${keyword}, maxPrice=${maxPrice != null ? maxPrice : ''}, minPrice=${minPrice != null ? minPrice : null})}" onclick="updateDropdown('Giá: Thấp đến Cao')">Giá: Thấp đến Cao</a>
-                                                <a class="dropdown-item" th:href="@{/books/search-books(sort='desc',keyword=${keyword}, maxPrice=${maxPrice != null ? maxPrice : ''}, minPrice=${minPrice != null ? minPrice : null})}" onclick="updateDropdown('Giá: Thấp đến Cao')">Giá: Cao đến Thấp</a>
-                                               
-                                                <!-- <a class="dropdown-item" th:href="@{/books/search-books(sort='desc',keyword=${keyword}+${maxPrice != null ? #uris.unescapePathSegment('%26maxPrice%3D'+maxPrice, 'UTF-8') : ''}+${minPrice != null ? #uris.unescapePathSegment('%26minPrice%3D'+minPrice, 'UTF-8') : ''})}" onclick="updateDropdown('Giá: Cao đến Thấp')">Giá: Cao đến Thấp</a> -->
-                                            </block>
-                                          <!-- <a class="dropdown-item" th:href="@{/books/search-books(sort='asc' ${keyword != null ? }}" onclick="updateDropdown('Giá: Thấp đến Cao')">Giá: Thấp đến Cao</a> -->
-                                          <!-- <a class="dropdown-item" th:href="@{/books/search-books(sort='desc', keyword=${keyword})}" onclick="updateDropdown('Giá: Cao đến Thấp')">Giá: Cao đến Thấp</a> -->
+                                                </block>
+                                                <block th:if="${keyword != null}">
+                                                    <a class="dropdown-item"
+                                                        th:href="@{/bookshop/books/search-books(sort='asc',keyword=${keyword}, maxPrice=${maxPrice != null ? maxPrice : ''}, minPrice=${minPrice != null ? minPrice : null})}"
+                                                        onclick="updateDropdown('Giá: Thấp đến Cao')">Giá: Thấp đến
+                                                        Cao</a>
+                                                    <a class="dropdown-item"
+                                                        th:href="@{/bookshop/books/search-books(sort='desc',keyword=${keyword}, maxPrice=${maxPrice != null ? maxPrice : ''}, minPrice=${minPrice != null ? minPrice : null})}"
+                                                        onclick="updateDropdown('Giá: Thấp đến Cao')">Giá: Cao đến
+                                                        Thấp</a>
+
+                                                    <!-- <a class="dropdown-item" th:href="@{/bookshop/books/search-books(sort='desc',keyword=${keyword}+${maxPrice != null ? #uris.unescapePathSegment('%26maxPrice%3D'+maxPrice, 'UTF-8') : ''}+${minPrice != null ? #uris.unescapePathSegment('%26minPrice%3D'+minPrice, 'UTF-8') : ''})}" onclick="updateDropdown('Giá: Cao đến Thấp')">Giá: Cao đến Thấp</a> -->
+                                                </block>
+                                                <!-- <a class="dropdown-item" th:href="@{/bookshop/books/search-books(sort='asc' ${keyword != null ? }}" onclick="updateDropdown('Giá: Thấp đến Cao')">Giá: Thấp đến Cao</a> -->
+                                                <!-- <a class="dropdown-item" th:href="@{/bookshop/books/search-books(sort='desc', keyword=${keyword})}" onclick="updateDropdown('Giá: Cao đến Thấp')">Giá: Cao đến Thấp</a> -->
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                
-                            </div>
 
-                            <!-- <div class="sorter col-sm-4 col-xs-6 col-md-4 ">
+                                </div>
+
+                                <!-- <div class="sorter col-sm-4 col-xs-6 col-md-4 ">
                          
                                 
                             </div> -->
 
+                            </div>
+
+
                         </div>
+                        <div class="card-body">
 
+                            <div class="col-main col-lg-9 col-md-9 col-sm-12 col-xs-12 col-fhs-main-body">
+                                <section class="py-5">
+                                    <div class="container px-4 px-lg-5 mt-5">
+                                        <!-- <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"> -->
+                                        <div class="row justify-content-center">
+                                            <div th:each="book : ${bookPages.content}" class="col mb-5">
+                                                <div class="card h-100">
 
-                    </div>
-                    <div class="card-body">
+                                                    <img class="card-img-top"
+                                                        th:src="${#lists.isEmpty(book.bookImages)==true ? null : book.bookImages[0].url}"
+                                                        alt="Ảnh" />
 
-                        <div class="col-main col-lg-9 col-md-9 col-sm-12 col-xs-12 col-fhs-main-body">
-                            <section class="py-5">
-                                <div class="container px-4 px-lg-5 mt-5">
-                                    <!-- <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"> -->
-                                    <div class="row justify-content-center">
-                                        <div th:each="book : ${bookPages.content}" class="col mb-5">
-                                            <div class="card h-100">
-                                            
-                                                <img class="card-img-top" th:src="${#lists.isEmpty(book.bookImages)==true ? null : book.bookImages[0].url}" alt="Ảnh" />
-                                            
-                                                <div class="card-body p-4">
-                                                    <div class="text-center">
-                                                    
-                                                        <h5 class="fw-bolder" th:text= "${book.title}"></h5>
-                                                        <h5 class="price" th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></h5>
+                                                    <div class="card-body p-4">
+                                                        <div class="text-center">
+
+                                                            <h5 class="fw-bolder" th:text="${book.title}"></h5>
+                                                            <h5 class="price"
+                                                                th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                                        <div class="text-center"><a class="btn btn-outline-dark mt-auto"
+                                                                href="#">Thêm vào giỏ hàng</a></div>
                                                     </div>
                                                 </div>
-                                            
-                                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Thêm vào giỏ hàng</a></div>
-                                                </div>
                                             </div>
-                                        </div>
-                                    
-                    
-                    
-                    
-                                            </div>
+
+
+
+
                                         </div>
                                     </div>
-                    
-                                    
-                                </div>
-                    
-                            
-                            </section>
-                    
-                            <nav aria-label="...">
-                                <ul id="pagination" class="pagination justify-content-center" th:data-value="${bookPages.page}">
+                            </div>
+
+
+                        </div>
+
+
+                        </section>
+
+                        <nav aria-label="...">
+                            <ul id="pagination" class="pagination justify-content-center"
+                                th:data-value="${bookPages.page}">
                                 <li class="page-item" th:classappend="${bookPages.page == 0} ? 'disabled' : ''">
-                                    <a class="page-link" th:href="@{/books(page=${bookPages.page -1 })}" tabindex="-1">Previous</a>
+                                    <a class="page-link" th:href="@{/bookshop/books(page=${bookPages.page -1 })}"
+                                        tabindex="-1">Previous</a>
                                 </li>
-                                    <!-- <li th:each="pageNumber : ${#numbers.sequence(0, bookPages.totalPages - 1)}">
-                                    <a th:href="@{/books(page=${pageNumber})}" th:text="${pageNumber + 1}"
+                                <!-- <li th:each="pageNumber : ${#numbers.sequence(0, bookPages.totalPages - 1)}">
+                                    <a th:href="@{/bookshop/books(page=${pageNumber})}" th:text="${pageNumber + 1}"
                                     th:class="${pageNumber == bookPages.page} ? 'active' : ''"></a>
                                     </li> -->
-                                    <th:block th:each="pageNumber : ${#numbers.sequence(0, bookPages.totalPages - 1)}">
-                                        <!-- <li class="page-item" th:unless="${((pageNumber - bookPages.page) == 3 or ( bookPages.page - pageNumber == 3)) and (pageNumber != 0 and pageNumber != bookPages.totalPages-1)}" th:classappend="${pageNumber == bookPages.page} ? 'active' : ''">
-                                            <a class="page-link " th:href="@{/books(page=${pageNumber})}" th:text="${pageNumber + 1}"><span class="sr-only">(current)</span></a>
+                                <th:block th:each="pageNumber : ${#numbers.sequence(0, bookPages.totalPages - 1)}">
+                                    <!-- <li class="page-item" th:unless="${((pageNumber - bookPages.page) == 3 or ( bookPages.page - pageNumber == 3)) and (pageNumber != 0 and pageNumber != bookPages.totalPages-1)}" th:classappend="${pageNumber == bookPages.page} ? 'active' : ''">
+                                            <a class="page-link " th:href="@{/bookshop/books(page=${pageNumber})}" th:text="${pageNumber + 1}"><span class="sr-only">(current)</span></a>
                                             
                                         </li> -->
-                                        <li class="page-item" th:if="${ pageNumber == 0 or pageNumber == bookPages.totalPages-1}" th:classappend="${pageNumber == bookPages.page} ? 'active' : ''">
-                                            <a class="page-link " th:href="@{/books(page=${pageNumber})}" th:text="${pageNumber + 1}"><span class="sr-only">(current)</span></a>
-                                            
-                                        </li>
-                                        <li class="page-item" th:if="${((pageNumber - bookPages.page) < 2 and ( bookPages.page - pageNumber) < 2) and (pageNumber != 0 and pageNumber != bookPages.totalPages-1)}" th:classappend="${pageNumber == bookPages.page} ? 'active' : ''">
-                                            <a class="page-link " th:href="@{/books(page=${pageNumber})}" th:text="${pageNumber + 1}"><span class="sr-only">(current)</span></a>
-                                            
-                                        </li>
-                                        <li class="page-item disabled" th:if="${((pageNumber - bookPages.page) == 2 or ( bookPages.page - pageNumber == 2)) and (pageNumber != 0 and pageNumber != bookPages.totalPages-1)}">
-                                            <a class="page-link" href="#">...</a>
-                                        </li>
-                                    </th:block>
-                                
-                                
-                                
+                                    <li class="page-item"
+                                        th:if="${ pageNumber == 0 or pageNumber == bookPages.totalPages-1}"
+                                        th:classappend="${pageNumber == bookPages.page} ? 'active' : ''">
+                                        <a class="page-link " th:href="@{/bookshop/books(page=${pageNumber})}"
+                                            th:text="${pageNumber + 1}"><span class="sr-only">(current)</span></a>
+
+                                    </li>
+                                    <li class="page-item"
+                                        th:if="${((pageNumber - bookPages.page) < 2 and ( bookPages.page - pageNumber) < 2) and (pageNumber != 0 and pageNumber != bookPages.totalPages-1)}"
+                                        th:classappend="${pageNumber == bookPages.page} ? 'active' : ''">
+                                        <a class="page-link " th:href="@{/bookshop/books(page=${pageNumber})}"
+                                            th:text="${pageNumber + 1}"><span class="sr-only">(current)</span></a>
+
+                                    </li>
+                                    <li class="page-item disabled"
+                                        th:if="${((pageNumber - bookPages.page) == 2 or ( bookPages.page - pageNumber == 2)) and (pageNumber != 0 and pageNumber != bookPages.totalPages-1)}">
+                                        <a class="page-link" href="#">...</a>
+                                    </li>
+                                </th:block>
+
+
+
                                 <!-- <li class="page-item"><a class="page-link" href="#">3</a></li> -->
                                 <li class="page-item" th:classappend="${bookPages.last == true} ? 'disabled' : ''">
-                                    <a class="page-link" th:href="@{/books(page=${bookPages.page + 1 })}">Next</a>
+                                    <a class="page-link"
+                                        th:href="@{/bookshop/books(page=${bookPages.page + 1 })}">Next</a>
                                 </li>
-                                </ul>
-                            </nav>
-            
-                            
-                        </div>
+                            </ul>
+                        </nav>
+
+
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div th:if="${bookPages == null}">
-                <p>Không tìm thấy kết quả.</p>
-            </div>
+        <div th:if="${bookPages == null}">
+            <p>Không tìm thấy kết quả.</p>
         </div>
     </div>
-</div>
+    </div>
+    </div>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/thymeleaf/dist/thymeleaf.min.js"></script>
-        <!-- <script th:src="@{/webjars/jquery/jquery.min.js}"></script> -->
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script th:src="@{/js/listbook.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/thymeleaf/dist/thymeleaf.min.js"></script>
+    <!-- <script th:src="@{/webjars/jquery/jquery.min.js}"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script th:src="@{/js/listbook.js}"></script>
 
-        <script>
-            // Hiển thị dropdown menu khi di chuột vào nút dropdown
-            $('.dropdown').on('mouseenter', function() {
-                $(this).find('.dropdown-menu').addClass('show');
-            });
-        
-            // Ẩn dropdown menu khi di chuột ra khỏi nút dropdown
-            $('.dropdown').on('mouseleave', function() {
-                $(this).find('.dropdown-menu').removeClass('show');
-            });
+    <script>
+        // Hiển thị dropdown menu khi di chuột vào nút dropdown
+        $('.dropdown').on('mouseenter', function () {
+            $(this).find('.dropdown-menu').addClass('show');
+        });
 
-            function updateDropdown(value) {
+        // Ẩn dropdown menu khi di chuột ra khỏi nút dropdown
+        $('.dropdown').on('mouseleave', function () {
+            $(this).find('.dropdown-menu').removeClass('show');
+        });
+
+        function updateDropdown(value) {
             $('#dropdownSort').html(value);
         }
-        </script>
-        
-        <!-- <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    </script>
+
+    <!-- <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script> -->
-        <!-- <script>
+    <!-- <script>
             // Gọi hàm requestData() khi người dùng nhấp chuột vào nút tìm kiếm
             document.getElementById('searchButton').addEventListener('click', function() {
               requestData();
@@ -296,7 +337,7 @@
               var authorName = "";
           
               // Gửi yêu cầu AJAX bằng Axios
-              axios.get('http://localhost:8080/books/search', {
+              axios.get('http://localhost:8080/bookshop/books/search', {
                 params: {
                   keyword: keyword,
                   page: page,
@@ -309,7 +350,7 @@
               })
               .then(function(response) {
                 // Xử lý dữ liệu trả về từ response
-            	  window.location.href = "/books/search";
+            	  window.location.href = "/bookshop/books/search";
               })
               .catch(function(error) {
                 // Xử lý lỗi (nếu có)
@@ -318,5 +359,5 @@
             }
           </script> -->
 </body>
-</html>
 
+</html>

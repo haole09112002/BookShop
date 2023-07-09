@@ -2,6 +2,8 @@ package com.BookShop.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,12 +31,18 @@ public class Category {
 	private long id;
 	
 	@Column
+	private String name;
+	
+	@Column(columnDefinition = "TEXT")
 	private String decription;
 	
 	@ManyToOne
 	@JoinColumn(name = "parentId")
 	private Category parentCategory;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Book> books;
+
+
 }

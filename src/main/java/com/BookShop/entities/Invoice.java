@@ -1,6 +1,7 @@
 package com.BookShop.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -17,13 +18,16 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-
+@Getter
+@Setter
 @Entity
+
 @Table(name = "invoices")
 
 public class Invoice {
@@ -37,13 +41,23 @@ public class Invoice {
 	private String decription;
 	@Column
 	private LocalDateTime createdDate;
-	@Column
-	private long createdBy;
+	@Column(nullable = true)
+	private String createdBy;
 	
-	@OneToOne(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Contact contact;
 	
 	@OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<InvoiceDetail> invoiceDetails;
 
+	public List<InvoiceDetail> getInvoiceDetails(){
+		return invoiceDetails == null ? new ArrayList<InvoiceDetail>(this.invoiceDetails) : this.invoiceDetails;
+	}
+	 public void addInvoiceDetail(InvoiceDetail invoiceDetail) {
+		 if(this.invoiceDetails == null){
+			 this.invoiceDetails = new ArrayList<InvoiceDetail>();
+		 }
+	        invoiceDetails.add(invoiceDetail);
+	        invoiceDetail.setInvoice(this);
+	    }
 }

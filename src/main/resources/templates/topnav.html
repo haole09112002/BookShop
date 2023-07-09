@@ -1,53 +1,74 @@
 <link th:href="@{/css/topnav.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
 <div th:fragment="header">
-    <nav id="mynav" class="navbar navbar-expand navbar-light">
-        <a class="navbar-brand" href="#">
-            <img src="path_to_logo.png" alt="Logo">
-        </a>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <form class="form-inline my-2 my-lg-0" th:action="@{/books/search-books}" method="GET"
-                    onsubmit="return validateForm()">
-                    <input id="txtSearch" class="form-control form-control-sm mr-sm-2" type="search" name="keyword"
-                        placeholder="Search" aria-label="Search" th:value="${keyword != null ? keyword : null}">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-bell"></i>
-                    <span class="badge badge-danger">Thông báo</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="badge badge-success">Giỏ hàng</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-user"></i>
-                    Đăng nhập
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <div id="mynav">
+        <div class="container">
+            <div id="nav-row" class="row">
+                <div id="logo" class="col-md-2 d-flex justify-content-start">
+                    <a class="navbar-brand" th:href=" @{/bookshop}">
+                        <!-- <img src="../static/img/logo.jpg" alt="Logo"> -->
+                        <i class="fas fa-book" style="color: red;"></i>
+                        bookshop
+                    </a>
+                </div>
+                <div class="col-md-7">
+
+                    <form class="form-inline my-2 my-lg-0 d-flex justify-content-end"
+                        th:action="@{/bookshop/books/search-books}" method="GET" onsubmit="return validateForm()">
+                        <input style="width: 80% ;" id="txtSearch" class="form-control form-control-sm mr-sm-2"
+                            type="search" name="keyword" placeholder="Search" aria-label="Search"
+                            th:value="${keyword != null ? keyword : null}">
+                        <button id="btnSearch" class="btn my-2 my-sm-0" type="submit"><i
+                                class="fas fa-search"></i></button>
+                    </form>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-6 d-flex justify-content-end">
+                            <a class="nav-link" th:href="@{/bookshop/shoping-cart}">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="badge badge-success">Giỏ hàng</span>
+                            </a>
+                        </div>
+                        <div id="login" class="col-md-6 d-flex justify-content-end">
+                            <a sec:authorize="not isAuthenticated()" class="nav-link" style="padding-right: 0px;"
+                                th:href="@{/bookshop/login}">
+                                <i class="fas fa-user"></i>
+                                Đăng nhập
+                            </a>
+                            <a sec:authorize="isAuthenticated()" class="nav-link" style="padding-right: 0px;"
+                                th:href="@{/bookshop/logout}">
+                                <i class="fas fa-user"></i>
+                                Đăng xuất
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+    </div>
 </div>
 <script th:inline="javascript">
-    function searchBooks() {
-        var keyword = document.getElementById('keyword').value.trim();
-        if (keyword.length > 0) {
-            window.location.href = '/books/search-books?sort=asc&keyword=' + encodeURIComponent(keyword);
-        } else {
-            window.location.href = '/books/search-books?sort=asc';
-        }
-    }
+    // function searchBooks() {
+    //     var keyword = document.getElementById('keyword').value.trim();
+    //     if (keyword.length > 0) {
+    //         window.location.href = '/books/search-books?sort=asc&keyword=' + encodeURIComponent(keyword);
+    //     } else {
+    //         window.location.href = '/books/search-books?sort=asc';
+    //     }
+    // }
 
     function validateForm() {
         var keyword = document.getElementById("txtSearch").value;
         if (keyword === "") {
-            window.location.href = '/books'
+            window.location.href = '/bookshop/books/search-books'
             return false; // Ngăn chặn gửi biểu mẫu
         }
         return true; // Cho phép gửi biểu mẫu

@@ -71,7 +71,7 @@ img {
 }
 
 .card {
-    margin-top: 50px;
+    margin-top: 10px;
     background: #fff;
     padding: 3em;
     line-height: 1.5em;
@@ -375,4 +375,8 @@ img {
 
 .card-img-top .arrow-next {
     right: 10px;
+}
+
+.path {
+    margin-top: 10px;
 }

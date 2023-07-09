@@ -6,16 +6,12 @@
 	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 	<link th:href="@{/css/style.css}" rel="stylesheet">
-	<link th:href="@{/css/listbook.css}" rel="stylesheet">
+	<link th:href="@{/css/book-result.css}" rel="stylesheet">
 
 	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 	<!-- <link th:href="@{/css/all.min.css}" rel="stylesheet"> -->
-	<link th:href="@{/css/bootstrap.min.js}" rel="stylesheet">
-	<!-- <link th:href="@{/js/jquery-3.3.1.slim.min.js}" rel="stylesheet"> -->
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" rel="stylesheet">
-
-	<link th:href="@{/js/popper.min.js}" rel="stylesheet">
 	<link th:href="@{/css/test.css}" rel="stylesheet">
+	<link th:href="@{/css/main.css}" rel="stylesheet">
 	<!-- <link th:href="@{/js/shoping-cart.js}" rel="stylesheet"> -->
 	<meta charset="UTF-8">
 	<style>
@@ -24,6 +20,13 @@
 			flex-shrink: 0;
 		}
 	</style>
+	<!-- <style>
+		.active-link {
+			color: orange;
+			font-weight: bold;
+		}
+	</style> -->
+
 
 </head>
 
@@ -45,39 +48,43 @@
 						<div class="col-12">
 							<div class="dropdown text-md-left text-center float-md-left mb-3 mt-3 mt-md-0 mb-md-0">
 								<label class="mr-2">Sort by:</label> <a class="btn btn-lg btn-light dropdown-toggle"
-									data-toggle="dropdown" role="button" aria-haspopup="true"
-									aria-expanded="false">Relevance <span class="caret"></span></a>
+									data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+									<span class="caret"
+										th:text="${sort == 'asc'? 'Giá từ Thấp đến Cao' : 'Giá từ Cao đến thấp' }"></span></a>
 								<div class="dropdown-menu" aria-labelledby="navbarDropdown" x-placement="bottom-start"
 									style="position: absolute; transform: translate3d(71px, 48px, 0px); top: 0px; left: 0px; will-change: transform;">
-									<a class="dropdown-item" href="#">Relevance</a>
-									<a class="dropdown-item" th:href="@{'/books/search-books'+'?sort=asc' +${keyword != null ? '&keyword='+keyword : ''} 
-
+									<!-- <a class="dropdown-item" href="#">Relevance</a> -->
+									<a class="dropdown-item" th:href="@{'/bookshop/books/search-books'+'?sort=asc' +${keyword != null ? '&keyword='+keyword : ''}
 									+${minPrice != null ? '&minPrice='+minPrice : ''}
 									+${maxPrice != null ? '&maxPrice='+maxPrice : ''}
+									+${categoryId != null ? '&categoryId='+categoryId : ''}
 									}">Giá từ Thấp đến Cao</a>
-									<a class="dropdown-item" th:href="@{'/books/search-books'+'?sort=desc' +${keyword != null ? '&keyword='+keyword : ''} 
+									<a class="dropdown-item" th:href="@{'/bookshop/books/search-books'+'?sort=desc' +${keyword != null ? '&keyword='+keyword : ''} 
 									+${minPrice != null ? '&minPrice='+minPrice : ''}
 									+${maxPrice != null ? '&maxPrice='+maxPrice : ''}
+									+${categoryId != null ? '&categoryId='+categoryId : ''}
 									}">Giá từ Cao đến thấp</a>
-									<a class="dropdown-item" href="#">Best Selling</a>
+
 								</div>
 							</div>
 							<div class="btn-group float-md-right ml-3">
 								<button type="button" class="btn btn-lg btn-light"
 									th:classappend="${bookPages.page == 0} ? 'disabled' : ''">
-									<a th:href="@{'/books/search-books'+'?page='+${bookPages.page -1} +${keyword != null ? '&keyword='+keyword : ''} 
+									<a th:href="@{'/bookshop/books/search-books'+'?page='+${bookPages.page -1} +${keyword != null ? '&keyword='+keyword : ''} 
 									+${sort != null ? '&sort='+sort : ''}
 									+${minPrice != null ? '&minPrice='+minPrice : ''}
 									+${maxPrice != null ? '&maxPrice='+maxPrice : ''}
+									+${categoryId != null ? '&categoryId='+categoryId : ''}
 									}" tabindex="-1"><span class="fa fa-arrow-left"></span></a>
 
 								</button>
 								<button type="button" class="btn btn-lg btn-light"
 									th:classappend="${bookPages.last == true} ? 'disabled' : ''">
-									<a th:href="@{'/books/search-books'+'?page='+${bookPages.page +1} +${keyword != null ? '&keyword='+keyword : ''} 
+									<a th:href="@{'/bookshop/books/search-books'+'?page='+${bookPages.page +1} +${keyword != null ? '&keyword='+keyword : ''} 
 									+${sort != null ? '&sort='+sort : ''}
 									+${minPrice != null ? '&minPrice='+minPrice : ''}
 									+${maxPrice != null ? '&maxPrice='+maxPrice : ''}
+									+${categoryId != null ? '&categoryId='+categoryId : ''}
 									}"><span class="fa fa-arrow-right"></a></span>
 								</button>
 							</div>
@@ -99,10 +106,11 @@
 							Kết quả tìm kiếm cho <span class="text-primary" th:text="'\''+${keyword} + '\''"></span>
 						</h5>
 						<!--message  -->
-						<h5 class="mt-0 mb-5" th:if="${bookPages.totalElements <= 0}">
-							Không tìm thấy các sách liên quan <span class="text-primary"
-								th:text="'\''+${keyword} + '\''">12</span>
+						<h5 class="mt-0 mb-5" th:if="${bookPages.totalElements <=0}">
+							Không tìm thấy các sách liên quan <span class="text-primary" th:if="${keyword != null}"
+								th:text="'\''+${keyword} + '\''"></span>
 						</h5>
+
 
 					</div>
 					<!--content-->
@@ -116,7 +124,7 @@
 								</div>
 								<div class="card-body text-center">
 									<h4 class="card-title">
-										<a th:href="@{'/books/' + ${book.id}}"
+										<a th:href="@{'/bookshop/books/' + ${book.id}}"
 											class=" font-weight-bold text-dark text-uppercase small"
 											th:text="${book.title}"> </a>
 									</h4>
@@ -148,10 +156,11 @@
 								<ul id="pagination" class="pagination justify-content-center"
 									th:data-value="${bookPages.page}">
 									<li class="page-item" th:classappend="${bookPages.page == 0} ? 'disabled' : ''">
-										<a class="page-link" th:href="@{'/books/search-books'+'?page='+${bookPages.page -1} +${keyword != null ? '&keyword='+keyword : ''} 
+										<a class="page-link" th:href="@{'/bookshop/books/search-books'+'?page='+${bookPages.page -1} +${keyword != null ? '&keyword='+keyword : ''} 
 										+${sort != null ? '&sort='+sort : ''}
 										+${minPrice != null ? '&minPrice='+minPrice : ''}
 										+${maxPrice != null ? '&maxPrice='+maxPrice : ''}
+										+${categoryId != null ? '&categoryId='+categoryId : ''}
 										}" tabindex="-1">Previous</a>
 									</li>
 
@@ -160,20 +169,22 @@
 										<li class="page-item"
 											th:if="${ pageNumber == 0 or pageNumber == bookPages.totalPages-1}"
 											th:classappend="${pageNumber == bookPages.page} ? 'active' : ''">
-											<a class="page-link " th:href="@{'/books/search-books'+'?page='+${pageNumber} +${keyword != null ? '&keyword='+keyword : ''} 
+											<a class="page-link " th:href="@{'/bookshop/books/search-books'+'?page='+${pageNumber} +${keyword != null ? '&keyword='+keyword : ''} 
 												+${sort != null ? '&sort='+sort : ''}
 												+${minPrice != null ? '&minPrice='+minPrice : ''}
-												+${maxPrice != null ? '&maxPrice='+maxPrice : ''}}" th:text="${pageNumber + 1}">
+												+${maxPrice != null ? '&maxPrice='+maxPrice : ''}
+												+${categoryId != null ? '&categoryId='+categoryId : ''}}" th:text="${pageNumber + 1}">
 												<span class="sr-only">(current)</span></a>
 
 										</li>
 										<li class="page-item"
 											th:if="${((pageNumber - bookPages.page) < 2 and ( bookPages.page - pageNumber) < 2) and (pageNumber != 0 and pageNumber != bookPages.totalPages-1)}"
 											th:classappend="${pageNumber == bookPages.page} ? 'active' : ''">
-											<a class="page-link " th:href="@{'/books/search-books'+'?page='+${pageNumber} +${keyword != null ? '&keyword='+keyword : ''} 
+											<a class="page-link " th:href="@{'/bookshop/books/search-books'+'?page='+${pageNumber} +${keyword != null ? '&keyword='+keyword : ''} 
 												+${sort != null ? '&sort='+sort : ''}
 												+${minPrice != null ? '&minPrice='+minPrice : ''}
 												+${maxPrice != null ? '&maxPrice='+maxPrice : ''}
+												+${categoryId != null ? '&categoryId='+categoryId : ''}
 												}" th:text="${pageNumber + 1}">
 												<span class="sr-only">(current)</span>
 											</a>
@@ -189,10 +200,11 @@
 
 									<!-- <li class="page-item"><a class="page-link" href="#">3</a></li> -->
 									<li class="page-item" th:classappend="${bookPages.last == true} ? 'disabled' : ''">
-										<a class="page-link" th:href="@{'/books/search-books'+'?page='+${bookPages.page +1} +${keyword != null ? '&keyword='+keyword : ''} 
+										<a class="page-link" th:href="@{'/bookshop/books/search-books'+'?page='+${bookPages.page +1} +${keyword != null ? '&keyword='+keyword : ''} 
 										+${sort != null ? '&sort='+sort : ''}
 										+${minPrice != null ? '&minPrice='+minPrice : ''}
 										+${maxPrice != null ? '&maxPrice='+maxPrice : ''}
+										+${categoryId != null ? '&categoryId='+categoryId : ''}
 										}">Next</a>
 									</li>
 								</ul>
@@ -217,86 +229,43 @@
 					<div class="custom-control custom-checkbox">
 						<!-- <input type="checkbox" class="custom-control-input" id="01">
 						<label class="custom-control-label" for="01">Tất cả</label> -->
-						<a class="text-dark" th:href="@{/books/categories/0}"> Tất cả</a>
+						<a class="text-dark" th:class="${categoryId == 0 ? 'active-link' : ''}"
+							th:href="@{'/bookshop/books/search-books' + '?categoryId=0'  +${keyword != null ? '&keyword='+keyword : ''}} ">
+							Tất cả</a>
 					</div>
 				</div>
-				<div class="mt-2 mb-2 pl-2" th:each="category : ${categories}">
+				<div class="mt-2 mb-2 pl-2" th:each="category : ${categories} ">
 					<div class="custom-control custom-checkbox">
-						<!-- <input type="checkbox" class="custom-control-input" th:id="${category.id}">
-						<label class="custom-control-label" th:for="${category.id}" th:text="${category.decription}">Coats
-							&amp; Jackets</label> -->
-						<a class="text-dark" th:href="@{/books/categories/} + ${category.id}"
+						<a class="text-dark" th:class="${categoryId == category.id ? 'active-link' : ''}"
+							th:href="@{'/bookshop/books/search-books' + '?categoryId=' + ${category.id} +${keyword != null ? '&keyword='+keyword : ''}} "
 							th:text="${category.decription}"></a>
 					</div>
 				</div>
 				<div class="divider mt-5 mb-5 border-bottom border-secondary"></div>
-				<h6 class="text-uppercase mt-5 mb-3 font-weight-bold">Hình thức</h6>
-				<div class="mt-2 mb-2 pl-2">
-					<div class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" id="filter-size-1"> <label
-							class="custom-control-label" for="filter-size-1">Bìa mềm</label>
-					</div>
-				</div>
-				<div class="mt-2 mb-2 pl-2">
-					<div class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" id="filter-size-2"> <label
-							class="custom-control-label" for="filter-size-2">Bìa cứng</label>
-					</div>
-				</div>
-
-				<div class="divider mt-5 mb-5 border-bottom border-secondary"></div>
 				<h6 class="text-uppercase mt-5 mb-3 font-weight-bold">Giá</h6>
 				<div class="price-filter-control">
-					<form th:action="@{/books/search-books}" method="GET" onsubmit="return validateForm()">
+					<form th:action="@{/bookshop/books/search-books}" method="GET"
+						onsubmit="return validateFormPrice()">
 						<input th:if="${keyword != null}" type="hidden" name="keyword" th:value="${keyword}">
+						<input th:if="${categoryId != null}" type="hidden" name="categoryId" th:value="${categoryId}">
 						<input th:if="${sort != null}" type="hidden" name="sort" th:value="${sort}">
 						<input type="number" placeholder="Từ" aria-label="" class="form-control w-50 pull-left mb-2"
 							th:value=${minPrice} id="price-min-control" name="minPrice">
 						<input type="number" placeholder="Đến" aria-label="" class="form-control w-50 pull-right"
 							th:value=${maxPrice} id="price-max-control" name="maxPrice">
-						<button type="submit"> Submit</button>
+						<button type="submit" class="btn btn-lg btn-block btn-primary mt-5"> Submit</button>
 					</form>
 				</div>
 				<input id="ex2" type="text" class="slider " value="50,150" data-slider-min="10" data-slider-max="200"
 					data-slider-step="5" data-slider-value="[50,150]" data-value="50,150" style="display: none;">
 				<div class="divider mt-5 mb-5 border-bottom border-secondary"></div>
-				<a href="#" class="btn btn-lg btn-block btn-primary mt-5">Update
-					Results</a>
+
 			</div>
 
 		</div>
 	</div>
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/thymeleaf/dist/thymeleaf.min.js"></script>
-	<!-- <script th:src="@{/webjars/jquery/jquery.min.js}"></script> -->
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script th:inline="javascript">
-
-
-		function validateForm() {
-			var minPrice = document.getElementById("price-min-control").value;
-			var maxPrice = document.getElementById("price-max-control").value;
-			if (minPrice === "" || maxPrice === "") {
-
-				return false; // Ngăn chặn gửi biểu mẫu
-			}
-			else {
-				if (Number(minPrice) >= Number(maxPrice))
-					return false;
-			}
-			return true; // Cho phép gửi biểu mẫu
-		}
-
-	</script>
-	<script>
-		function scrollToTop() {
-			// Cuộn lên trên trong 500ms
-			window.scrollTo({
-				top: 0,
-				behavior: 'smooth'
-			});
-		}
-	</script>
+	<script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/book-result.js}"></script>
 </body>

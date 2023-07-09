@@ -1,0 +1,271 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <!-- <link th:href="@{/css/book-result.css}" rel="stylesheet"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- <link th:href="@{/css/all.min.css}" rel="stylesheet"> -->
+    <link th:href="@{/css/test.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/invoice-details.css}" rel="stylesheet">
+    <link th:href="@{/css/new-book.css}" rel="stylesheet">
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body class="sb-nav-fixed">
+
+
+    <div th:replace="~{admin/header :: header-admin}"></div>
+    <div id="layoutSidenav">
+        <!-- left navbar-->
+        <div th:replace="~{admin/left-nav :: left-nav}"></div>
+        <!-- content-->
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Dashboard</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item ">
+                            <a class="path" th:href="@{/bookshop/admin/home}">Trang chủ > </a>
+                            <a class="path" th:href="@{/bookshop/admin/invoices}">Danh sách đơn hàng > </a>
+                            <a class="path active" th:href="@{'/bookshop/admin/invoices/'+${invoice.id}}">Chi tiết đơn
+                                hàng >
+                            </a>
+                            <a class="path back" th:href="@{/bookshop/admin/invoices}">Quay lại </a>
+                        </li>
+
+                    </ol>
+                    <div id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div>
+                            <div>
+
+                                <div class="modal-header">
+                                </div>
+                                <div class="modal-body needs-validation">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <table class="table table-borderless">
+                                                <tbody>
+                                                    <tr class="book-info-row">
+                                                        <td class="book-label">Mã hóa đơn</td>
+                                                        <td class="book-value">
+                                                            <input id="id" type="text" readonly
+                                                                th:value="${invoice != null ? invoice.id : ''}">
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="book-info-row">
+                                                        <td class="book-label">Ngày tạo</td>
+                                                        <td class="book-value">
+                                                            <input id="title" type="datetime-local" readonly
+                                                                th:value="${invoice != null ? invoice.createdDate : ''}">
+
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr class="book-info-row">
+                                                        <td class="book-label">Người tạo</td>
+                                                        <td class="book-value">
+                                                            <input type="text" id="price" readonly
+                                                                th:value="${invoice != null ? invoice.createdBy : ''}">
+
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="book-info-row">
+                                                        <td class="book-label">Tên người nhận</td>
+                                                        <td class="book-value">
+                                                            <input type="text" id="quantity" readonly
+                                                                th:value="${invoice != null ? invoice.contact.fullname : ''}">
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="book-info-row">
+                                                        <td class="book-label">Email</td>
+                                                        <td class="book-value">
+                                                            <input id="publisher" type="text" readonly
+                                                                th:value="${invoice != null ? invoice.contact.email : ''}">
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="book-info-row">
+                                                        <td class="book-label">Điện thoại</td>
+                                                        <td class="book-value">
+                                                            <input type="number" readonly
+                                                                th:value="${invoice != null ? invoice.contact.phone : ''}">
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="book-info-row">
+                                                        <td class="book-label">Tỉnh/TP</td>
+                                                        <td class="book-value">
+                                                            <input type="text" readonly
+                                                                th:value="${invoice != null ? invoice.contact.address.province : ''}">
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="book-label">Quận/ Huyện</td>
+                                                        <td class="book-value">
+                                                            <input type="text" readonly
+                                                                th:value="${invoice != null ? invoice.contact.address.district : ''}">
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="book-info-row">
+                                                        <td class="book-label">Phường/ xã</td>
+                                                        <td class="book-value">
+                                                            <input id="weight" type="text" readonly
+                                                                th:value="${invoice != null ? invoice.contact.address.ward : ''}">
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="book-info-row">
+                                                        <td class="book-label">Số nhà</td>
+                                                        <td class="book-value">
+
+                                                            <input type="text" id="pageCount" readonly
+                                                                th:value="${invoice != null ? invoice.contact.address.street : ''}">
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="book-info-row">
+                                                        <td class="book-label">Ghi chú</td>
+                                                        <td class="book-value">
+                                                            <textarea class="form-control" readonly
+                                                                th:text="${invoice != null ? invoice.decription: ''}"></textarea>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <table class="datatable-table ">
+                                                    <caption class="caption-top">Danh sách sản phẩm</caption>
+                                                    <thead>
+
+                                                        <tr>
+                                                            <th>id</th>
+                                                            <th>Tên sách</th>
+
+                                                            <th>Số lượng</th>
+                                                            <th>Giá</th>
+                                                            <th>Tổng tiền</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr th:each="invoiceDetail : ${invoiceDetails}">
+                                                            <td th:text="${invoiceDetail.id}"></td>
+                                                            <td th:text="${invoiceDetail.book.title}"></td>
+                                                            <td th:text="${invoiceDetail.quantity}"></td>
+                                                            <td th:text="${invoiceDetail.price}"></td>
+                                                            <td
+                                                                th:text="${invoiceDetail.quantity * invoiceDetail.price}">
+                                                            </td>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="4">Tổng cộng(VNĐ)</td>
+                                                            <td th:text="${invoice.totalAmount}"></td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <a th:href="@{/bookshop/admin/invoices}" class="btn btn-secondary">Quay lại</a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+
+
+
+            <!-- Modal new Category -->
+            <div class="modal fade" id="newCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form class="needs-validation" id="formNewCategory" novalidate>
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Thêm danh mục
+                                </h5>
+                                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-borderless">
+                                    <tbody>
+
+                                        <tr class="book-info-row">
+                                            <td class="book-label">Tên danh mục</td>
+                                            <td class="book-value">
+                                                <input id="categoryName" type="text">
+                                                <div class="invalid-feedback">
+                                                    Vui lòng nhập tên danh mục.
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="book-info-row">
+                                            <td class="book-label">Mô tả danh mục</td>
+                                            <td class="book-value">
+                                                <input id="categoryDecription" type="text" required>
+                                                <div class="invalid-feedback">
+                                                    Vui lòng nhập mô tả.
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="saveCategory()">Save
+                                    changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <!-- <script th:src="@{/js/invoice-details.js}"></script> -->
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>

@@ -1,0 +1,40 @@
+<!-- <link th:href="@{/css/book-details.css}" rel="stylesheet"> -->
+<div class="row" th:fragment="list-book-home-fragment">
+    <div class="col-12 mb-3">
+        <div class="card-deck align-items-center">
+
+            <div class="card border-0 position-relative" th:each="book : ${books}">
+                <div class="card-img-top">
+                    <img th:src="${#lists.isEmpty(book.bookImages)==true ? null : book.bookImages[0].url}"
+                        class="img-fluid mx-auto d-block" alt="Card image cap">
+                </div>
+                <div class="card-body text-center">
+                    <h4 class="card-title">
+                        <a th:href="@{'/bookshop/books/' + ${book.id}}"
+                            class="font-weight-bold text-dark text-uppercase small" th:text="${book.title}"></a>
+                    </h4>
+                    <h5 class="card-price small text-warning">
+                        <i>
+                            <s>$199</s>
+                            <i th:text="${book.price}"></i>
+                        </i>
+                    </h5>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+    </div>
+    <div class="text-center">
+        <a th:if="${type=='category'}" class="btn btn-more d-inline-block"
+            th:href="@{/bookshop/books/search-books(categoryId=${id})}" role="button">Xem
+            thêm</a>
+        <a th:if="${type=='sale'}" class="btn btn-more d-inline-block" th:href="@{/bookshop/books/search-books}"
+            role="button">Xem
+            thêm</a>
+    </div>
+</div>

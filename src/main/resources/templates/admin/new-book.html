@@ -1,0 +1,444 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <!-- <link th:href="@{/css/book-result.css}" rel="stylesheet"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- <link th:href="@{/css/all.min.css}" rel="stylesheet"> -->
+    <link th:href="@{/css/test.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/new-book.css}" rel="stylesheet">
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body class="sb-nav-fixed">
+
+
+    <div th:replace="~{admin/header :: header-admin}"></div>
+    <div id="layoutSidenav">
+        <!-- left navbar-->
+        <div th:replace="~{admin/left-nav :: left-nav}"></div>
+        <!-- content-->
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Dashboard</h1>
+                    <ol class="breadcrumb mb-4">
+                        <a class="path" th:href="@{/bookshop/admin}">Trang chủ > </a>
+                        <a class="path" th:href="@{/bookshop/admin/books}">Danh sách sản phẩm ></a>
+                        <a th:if="${book == null}" class="path active" th:href="@{/bookshop/admin/books/new}">Thêm sản
+                            phẩm
+                            ></a>
+                        <a th:if="${book != null}" class="path active"
+                            th:href="@{'/bookshop/admin/books/new/' + ${book.id}}">Thêm
+                            sản phẩm
+                            ></a>
+                        <a class="path back" th:href="@{/bookshop/admin/books}">Quay lại</a>
+                    </ol>
+                    <div id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div>
+                            <div>
+                                <form class="needs-validation" id="my-form" novalidate>
+                                    <div class="modal-header">
+                                        <!-- <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button> -->
+                                    </div>
+                                    <div class="modal-body needs-validation">
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <table class="table table-borderless">
+                                                    <tbody>
+                                                        <tr class="book-info-row">
+                                                            <td class="book-label">Mã hàng</td>
+                                                            <td class="book-value">
+                                                                <input id="id" type="text" readonly
+                                                                    th:value="${book != null ? book.id : ''}">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="book-info-row">
+                                                            <td class="book-label">Tên sách</td>
+                                                            <td class="book-value">
+                                                                <input id="title" type="text" required
+                                                                    th:value="${book != null ? book.title : ''}">
+                                                                <div class="invalid-feedback">
+                                                                    Vui lòng nhập tên sách.
+                                                                </div>
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr class="book-info-row">
+                                                            <td class="book-label">Giá(VNĐ)</td>
+                                                            <td class="book-value">
+                                                                <input type="number" id="price" step="0.01" min="0"
+                                                                    placeholder="0.00" required
+                                                                    th:value="${book != null ? book.price : ''}">
+
+                                                                <div class="invalid-feedback">
+                                                                    Vui lòng nhập giá.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="book-info-row">
+                                                            <td class="book-label">Số lượng(quyển)</td>
+                                                            <td class="book-value">
+                                                                <input type="number" id="quantity" required
+                                                                    th:value="${book != null ? book.quantity : ''}">
+                                                                <div class="invalid-feedback">
+                                                                    Vui lòng nhập số lượng sách.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="book-info-row">
+                                                            <td class="book-label">Nhà xuất bản</td>
+                                                            <td class="book-value">
+                                                                <input id="publisher" type="text" required
+                                                                    th:value="${book != null ? book.publisher : ''}">
+                                                                <div class="invalid-feedback">
+                                                                    Vui lòng nhà xuất bản.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="book-info-row">
+                                                            <td class="book-label">Năm xuất bản</td>
+                                                            <td class="book-value">
+                                                                <input id="publishYear" type="number" required
+                                                                    th:value="${book != null ? book.publishYear : ''}">
+                                                                <div class="invalid-feedback">
+                                                                    Vui lòng nhập năm xuất bản.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="book-info-row">
+                                                            <td class="book-label">Ngôn ngữ</td>
+                                                            <td class="book-value">
+                                                                <input id="language" type="text" required
+                                                                    th:value="${book != null ? book.language : ''}">
+                                                                <div class="invalid-feedback">
+                                                                    Vui lòng nhập ngôn ngữ.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="book-label">Nhà cung cấp</td>
+                                                            <td class="book-value">
+                                                                <input id="supplier" type="text" required
+                                                                    th:value="${book != null ? book.supplier : ''}">
+                                                                <div class="invalid-feedback">
+                                                                    Vui lòng nhập nhà cung cấp.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="book-info-row">
+                                                            <td class="book-label">Khối lượng</td>
+                                                            <td class="book-value">
+                                                                <input id="weight" type="number" step="0.1" min="0"
+                                                                    required
+                                                                    th:value="${book != null ? book.weight : ''}">
+                                                                <div class="invalid-feedback">
+                                                                    Vui lòng nhập khối lượng sản phẩm.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="book-info-row">
+                                                            <td class="book-label">Số trang</td>
+                                                            <td class="book-value">
+                                                                <input type="number" id="pageCount" required
+                                                                    th:value="${book != null ? book.pageCount : ''}">
+                                                                <div class="invalid-feedback">
+                                                                    Vui lòng nhập số trang.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="book-info-row">
+                                                            <td class="book-label">Hình thức</td>
+                                                            <td class="book-value">
+                                                                <input id="formality" type="text" required
+                                                                    th:value="${book != null ? book.formality : ''}">
+                                                                <div class="invalid-feedback">
+                                                                    Vui lòng nhập hình thức sách.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="book-info-row">
+                                                            <td class="book-label">Độ tuổi</td>
+                                                            <td class="book-value">
+                                                                <input type="number" id="ageRange" required
+                                                                    th:value="${book != null ? book.ageRange : ''}">
+                                                                <div class="invalid-feedback">
+                                                                    Vui lòng nhập độ tuổi.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="book-info-row">
+                                                            <td class="book-label">Kích thước</td>
+                                                            <td class="book-value">
+                                                                <input id="size" type="text" required
+                                                                    th:value="${book != null ? book.size : ''}">
+                                                                <div class="invalid-feedback">
+                                                                    Vui lòng nhập kích thước.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="row">
+                                                    <div class="preview col-md-6">
+                                                        <div class="preview-pic col-md-9 tab-content">
+                                                            <th:block th:if="${book != null}">
+                                                                <div th:if="${not #lists.isEmpty(book.bookImages)}"
+                                                                    th:each="img : ${book.bookImages}"
+                                                                    th:class="${img.id == book.bookImages[0].id ? 'tab-pane active' : 'tab-pane'}"
+                                                                    a th:id="'pic-'+${img.id}">
+
+                                                                    <img th:src="${img.url}"
+                                                                        style="max-width: 100%; max-height: 100%;" />
+
+                                                                </div>
+                                                            </th:block>
+
+                                                        </div>
+                                                        <ul class="preview-thumbnail  nav nav-tabs">
+                                                            <th:block th:if="${book != null}">
+                                                                <li th:if="${not #lists.isEmpty(book.bookImages)}"
+                                                                    th:each="img : ${book.bookImages}"
+                                                                    th:class="${img.id == book.bookImages[0].id ? 'active' : ''}">
+                                                                    <a th:data-target="'#pic-'+${img.id}"
+                                                                        data-toggle="tab">
+
+                                                                        <img class="img-info" th:src="${img.url}" />
+
+                                                                    </a>
+                                                                    <input type="checkbox" class="img-checkbox" checked
+                                                                        th:value="${img.id}">
+                                                                </li>
+                                                            </th:block>
+
+
+                                                        </ul>
+
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="col">
+                                                            <div class="row"> <a th:if="${book != null}"
+                                                                    th:href="@{'/bookshop/books/' + ${book.id}}"
+                                                                    target="_blank">Xem trước</a></div>
+                                                            <div class="row"><label for="formFileMultiple"
+                                                                    class="form-label">Chọn
+                                                                    ảnh</label>
+                                                                <input class="form-control" type="file"
+                                                                    id="formFileMultiple" multiple />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                    <label>Mô tả</label>
+                                                    <textarea id="decription" class="form-control" required
+                                                        th:text="${book != null ? book.decription : ''}"
+                                                        style="height: 150px ;">
+
+                                            </textarea>
+                                                    <table class="table table-borderless">
+                                                        <tbody>
+                                                            <tr class="book-info-row">
+                                                                <td class="book-label">Thể loại</td>
+                                                                <td class="book-value">
+                                                                    <select id="category" required>
+                                                                        <option th:each="category : ${categories}"
+                                                                            th:value="${category.id}"
+                                                                            th:text="${category.name}">
+                                                                        </option>
+                                                                    </select>
+                                                                    <div class="invalid-feedback">
+                                                                        Vui lòng chọn thể loại sách.
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <!-- Button trigger modal -->
+                                                                    <button type="button" id="btnNewCategory"
+                                                                        class="btn btn-primary btn-sm rounded-circle"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#newCategoryModal">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+
+
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="book-info-row">
+                                                                <td class="book-label">Tác giả</td>
+                                                                <td class="book-value">
+                                                                    <select id="author" required>
+                                                                        <option th:each="author : ${authors}"
+                                                                            th:value="${author.id}"
+                                                                            th:text="${author.fullname}">
+                                                                        </option>
+                                                                    </select>
+                                                                    <div class="invalid-feedback">
+                                                                        Vui lòng chọn tác giả.
+                                                                    </div>
+
+                                                                </td>
+                                                                <td>
+                                                                    <button type="button" id="btnNewAuthor"
+                                                                        class="btn btn-primary btn-sm rounded-circle"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#newAuthorModal">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a th:href="@{/bookshop/admin/books}" class="btn btn-secondary">Close</a>
+                                        <button type="button" class="btn btn-primary" onclick="saveChange()">Save
+                                            changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+
+
+
+            <!-- Modal new Category -->
+            <div class="modal fade" id="newCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form class="needs-validation" id="formNewCategory" novalidate>
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Thêm danh mục
+                                </h5>
+                                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-borderless">
+                                    <tbody>
+
+                                        <tr class="book-info-row">
+                                            <td class="book-label">Tên danh mục</td>
+                                            <td class="book-value">
+                                                <input id="categoryName" type="text">
+                                                <div class="invalid-feedback">
+                                                    Vui lòng nhập tên danh mục.
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="book-info-row">
+                                            <td class="book-label">Mô tả danh mục</td>
+                                            <td class="book-value">
+                                                <input id="categoryDecription" type="text" required>
+                                                <div class="invalid-feedback">
+                                                    Vui lòng nhập mô tả.
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="saveCategory()">Save
+                                    changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal new author -->
+            <div class="modal fade" id="newAuthorModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form class="needs-validation" id="formNewAuthor" novalidate>
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Thêm danh mục
+                                </h5>
+                                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-borderless">
+                                    <tbody>
+
+                                        <tr class="book-info-row">
+                                            <td class="book-label">Tên Tác giả</td>
+                                            <td class="book-value">
+                                                <input id="authorName" type="text" required>
+                                                <div class="invalid-feedback">
+                                                    Vui lòng nhập tên tác giả.
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="book-info-row">
+                                            <td class="book-label">Giới thiệu về tác giả</td>
+                                            <td class="book-value">
+                                                <input id="authorDescription" type="text" required>
+                                                <div class="invalid-feedback">
+                                                    Vui lòng nhập giới thiệu.
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="saveAuthor()">Save
+                                    changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script th:src="@{/js/new-book.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>

@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
 
 import com.BookShop.entities.Category;
+import com.BookShop.payload.CategoryRequest;
 import com.BookShop.repositories.CategoryRepository;
 import com.BookShop.services.CategoryService;
 
@@ -37,5 +38,19 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public List<Category> findRootCategory(){
 		return categoryRepo.findRootCategory();
+	}
+
+	@Override
+	public List<Category> findTop5() {
+		
+		return categoryRepo.findTop5();
+	}
+	
+	@Override
+	public Category save(CategoryRequest categoryRequest) {
+		Category newCategory = new Category();
+		newCategory.setName(categoryRequest.getName());
+		newCategory.setDecription(categoryRequest.getDescription());
+		return categoryRepo.save(newCategory);
 	}
 }

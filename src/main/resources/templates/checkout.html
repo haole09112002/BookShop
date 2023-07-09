@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/listbook.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/home.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- <link th:href="@{/css/all.min.css}" rel="stylesheet"> -->
+
+
+
+    <meta charset="UTF-8">
+
+
+
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link th:href="@{/css/book-details.css}" rel="stylesheet">
+</head>
+
+<body>
+    <div th:replace="~{topnav}"></div>
+    <div class="container">
+        <div class="card">
+            <div class="container-fliud" sec:authorize="not isAuthenticated()">
+                <a th:href="@{/bookshop/login}" class="nav-link"><i class="fas fa-exclamation-circle"></i> Đăng nhập!
+                    Bạn đã có có tài khoản? Hãy đăng nhập ngay!</a>
+            </div>
+        </div>
+        <div class="card-book-info card">
+            <div class=" container-fliud">
+                <div class="card-header row justify-content-between">
+                    <div class="col-xl-5 col-lg-5 col-md-12">
+                        <h5 class="book-title"><strong>ĐỊA CHỈ GIAO HÀNG</strong></h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr class="book-info-row">
+                                <td class="book-label">Tên người nhận</td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="Tên người nhận"
+                                        aria-label="Username" aria-describedby="basic-addon1" id="fullname">
+                                </td>
+
+                                <!-- <td class="book-value" id="id" th:text="${book.id}"></td> -->
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Email</td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="Email" aria-label="Username"
+                                        aria-describedby="basic-addon1" id="email">
+                                </td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Số điện thoại</td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="Số điện thoại"
+                                        aria-label="Username" aria-describedby="basic-addon1" id="phone">
+                                </td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Tỉnh/ thành phố</td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                        aria-describedby="basic-addon1" id="province">
+                                </td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Quận/ Huyện</td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                        aria-describedby="basic-addon1" id="district">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="book-label">Phường/ xã</td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                        aria-describedby="basic-addon1" id="ward">
+                                </td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Địa chỉ nhận hàng</td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                        aria-describedby="basic-addon1" id="street">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-book-info card">
+            <div class=" container-fliud">
+                <div class="card-header">
+                    <div class="col-xl-5 col-lg-5 col-md-12">
+                        <h5 class="book-title"><strong>THÔNG TIN KHÁC</strong></h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr class="book-info-row">
+                                <td class="book-label">Ghi chú</td>
+                                <td>
+                                    <textarea class="form-control" id="comment" rows="3"></textarea>
+
+                                </td>
+                                <!-- <td class="book-value" id="id" th:text="${book.id}"></td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-book-info card">
+            <div class=" container-fliud">
+                <div class="card-header">
+                    <h5 class="book-title"><strong>KIỂM TRA LẠI ĐƠN HÀNG</strong></h5>
+                </div>
+                <div class="card-body">
+                    <div th:each="item : ${cartItems}" class="row border-top border-bottom myCartItem">
+                        <div class="row main align-items-center">
+                            <input type="hidden" th:value="${item.id}" id="itemId">
+                            <div class="col-2"><img class="img-fluid" th:src="${item.img}"></div>
+                            <div class="col">
+                                <div class="row text-muted"> <span th:text="${item.title}"></span></div>
+
+                            </div>
+                            <div class="col">
+                                <span th:text="${item.price}"></span>
+                            </div>
+                            <div class="col">
+                                <a href="#" id="itemQuantity" class="border" th:text="${item.quantity}"> </a>
+
+                            </div>
+                            <div class="col d-flex justify-content-end"> &euro;
+                                <span th:text="${item.total}"></span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row border-top border-bottom">
+                        <div class="row main align-items-center">
+                            <div class="col">
+
+                            </div>
+                            <div class="col d-flex justify-content-end">
+                                <div>
+                                    <h4>Thành tiền</h4>
+                                </div>
+                            </div>
+                            <div class="col d-flex justify-content-end">
+                                <div><span th:text="${totalItemFee}">.....</span></div>
+                            </div>
+                        </div>
+                        <div class="row main align-items-center">
+                            <div class="col">
+
+                            </div>
+                            <div class="col d-flex justify-content-end">
+                                <div>
+                                    <h4>Phí giao hàng</h4>
+                                </div>
+                            </div>
+                            <div class="col d-flex justify-content-end">
+                                <div><span th:text="${shippingFee}">.....</span></div>
+                            </div>
+                        </div>
+                        <div class="row main align-items-right">
+                            <div class="col">
+
+                            </div>
+                            <div class="col d-flex justify-content-end">
+                                <div>
+                                    <h3>Tổng số tiền</h3>
+                                </div>
+                            </div>
+                            <div class="col d-flex justify-content-end">
+                                <div><span th:text="${total}">.....</span></div>
+                            </div>
+                        </div>
+                        <div class="row main align-items-right">
+                            <div class="col"></div>
+                            <div class="col "></div>
+                            <div class="col d-flex justify-content-end">
+                                <a sec:authorize="not isAuthenticated()" class=" btn btn-primary" role="button"
+                                    id="checkoutBtn" onclick="sendRequestCheckout(false)">Thanh
+                                    toán</a>
+                                <a sec:authorize="isAuthenticated()" class=" btn btn-primary" role="button"
+                                    id="checkoutBtn" onclick="sendRequestCheckout(true)">Thanh toán</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div th:replace="~{footer}"></div>
+    <!-- <script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script th:src="@{/js/home.js}"></script> -->
+    <script th:src="@{/js/checkout.js}"></script>
+
+    <!-- <script>
+        function loadData() {
+            fetch('http://localhost:8080/books/topsale').then(function (response) {
+                return response.text();
+            }).then(function (html) {
+                console.log(html)
+                document.getElementById("topSale").innerHTML = html;
+            }).catch(function (err) {
+                console.warn('Something went wrong.', err);
+            });
+
+            // fetch('http://localhost:8080/books/booksByAuthor/' + id).then(function (response) {
+            //     return response.text();
+            // }).then(function (html) {
+            //     console.log(html)
+            //     document.getElementById("booksByAuthor").innerHTML = html;
+            // }).catch(function (err) {
+            //     console.warn('Something went wrong.', err);
+            // });
+        }
+    </script> -->
+</body>
+
+</html>
