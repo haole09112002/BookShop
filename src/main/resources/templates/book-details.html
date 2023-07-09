@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>eCommerce Product Detail</title>
+    <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+    <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
+    <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/listbook.css}" rel="stylesheet">
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- <link th:href="@{/css/all.min.css}" rel="stylesheet"> -->
+    <link th:href="@{/css/bootstrap.min.js}" rel="stylesheet">
+    <!-- <link th:href="@{/js/jquery-3.3.1.slim.min.js}" rel="stylesheet"> 
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" rel="stylesheet"> -->
+
+    <link th:href="@{/js/popper.min.js}" rel="stylesheet">
+    <!-- <link th:href="@{/css/test.css}" rel="stylesheet"> -->
+    <link th:href="@{/js/jquery-3.3.1.slim.min.js}" rel="stylesheet">
+
+
+    <meta charset="UTF-8">
+
+
+
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link th:href="@{/css/book-details.css}" rel="stylesheet">
+</head>
+
+<body>
+    <div th:replace="~{topnav}"></div>
+    <div class="container">
+        <div class="card">
+            <div class="container-fliud">
+                <div class="wrapper row">
+                    <div class="preview col-md-4">
+
+                        <div class="preview-pic tab-content">
+
+                            <div th:if="${not #lists.isEmpty(book.bookImages)}" th:each="img : ${book.bookImages}"
+                                th:class="${img.id == book.bookImages[0].id ? 'tab-pane active' : 'tab-pane'}" a
+                                th:id="'pic-'+${img.id}">
+
+                                <img th:src="${img.url}" style="max-width: 100%; max-height: 100%;" />
+
+                            </div>
+
+                        </div>
+                        <ul class="preview-thumbnail nav nav-tabs">
+                            <li th:if="${not #lists.isEmpty(book.bookImages)}" th:each="img : ${book.bookImages}"
+                                th:class="${img.id == book.bookImages[0].id ? 'active' : ''}">
+                                <a th:data-target="'#pic-'+${img.id}" data-toggle="tab">
+                                    <!-- <div class="thumbnail-image"> -->
+                                    <img class="img-info" th:src="${img.url}" />
+                                    <!-- </div> -->
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                    <div class="details col-md-8">
+                        <h3 class="product-title" th:text="${book.title}"></h3>
+                        <div class="rating">
+                            <div class="stars">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
+                            </div>
+                            <span class="review-no">41 reviews</span>
+                        </div>
+                        <div class="book-label">
+                            <span class="book-label-no">Nhà xuất bản:
+                                <strong class="bold" th:text="${book.publisher}"></strong>
+                            </span>
+                            <span class="book-label-no">Nhà cung cấp:
+                                <strong class="bold" th:text="${book.supplier}"></strong>
+                            </span>
+                            <span class="book-label-no">Tác giả:
+                                <a th:href="@{/author}"><strong class="bold"
+                                        th:text="${book.author.fullname}"></strong></a>
+                            </span>
+                            <span class="book-label-no">Hình thức bìa:
+                                <strong class="bold" th:text="${book.formality}"></strong>
+                            </span>
+                        </div>
+
+                        <h4 class="price-text">current price: <span id="price" th:text="${book.price}"></span>
+                        </h4>
+
+                        <!-- <h4 class="price-text">current price: <span id="price"
+                                th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+                        </h4> -->
+                        <div class="col quantity">
+                            <label for="quantity">Số lượng sách:</label>
+                            <input type="number" id="quantity" name="quantity" min="1" max="100" step="1" value="1"
+                                class="orange-input">
+                        </div>
+
+
+
+                        <div class="action">
+                            <button id="add-to-cart-btn" class="add-to-cart btn btn-default" type="button"
+                                onclick="addToCart()">add to
+                                cart</button>
+                            <button class="like btn btn-default" type="button"><span
+                                    class="fa fa-heart"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-book-info card">
+            <div class="container-fliud">
+                <div class="card-header">
+                    <h5 class="book-title"><strong>THÔNG TIN SẢN PHẨM</strong></h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr class="book-info-row">
+                                <td class="book-label">Mã hàng</td>
+                                <td class="book-value" id="id" th:text="${book.id}"></td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Tên sách</td>
+                                <td class="book-value" id="title" th:text="${book.title}">Row 2, Column 2</td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Nhà xuất bản</td>
+                                <td class="book-value" th:text="${book.publisher}">Row 2, Column 2</td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Năm xuất bản</td>
+                                <td class="book-value" th:text="${book.publishYear}">Row 2, Column 2</td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Ngôn ngữ</td>
+                                <td class="book-value" th:text="${book.language}">Row 2, Column 2</td>
+                            </tr>
+                            <tr>
+                                <td class="book-label">Nhà cung cấp</td>
+                                <td class="book-value" th:text="${book.supplier}">Row 2, Column 2</td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Khối lượng</td>
+                                <td class="book-value" th:text="${book.weight}">Row 2, Column 2</td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Số trang</td>
+                                <td class="book-value" th:text="${book.pageCount}">Row 2, Column 2</td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Hình thức</td>
+                                <td class="book-value" th:text="${book.formality}">Row 2, Column 2</td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Độ tuổi</td>
+                                <td class="book-value" th:text="${book.ageRange}">Row 2, Column 2</td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Kích thước</td>
+                                <td class="book-value" th:text="${book.size}">Row 2, Column 2</td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Thể loại</td>
+                                <td class="book-value" th:text="${book.category.decription}">Row 2, Column 2</td>
+                            </tr>
+                            <tr class="book-info-row">
+                                <td class="book-label">Tác giả</td>
+                                <td class="book-value"> <a th:href="@{/author}" th:text="${book.author.fullname}"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr class="hr-line">
+                    <p th:text="${book.decription}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="card-book-info card">
+            <div class=" container-fliud">
+                <div class="card-header">
+                    <h5 class="book-title"><strong>SẢN PHẨM CÙNG DANH MỤC</strong></h5>
+                </div>
+                <button onclick="getData()">hwki</button>
+                <div id="myPlaceHolder">
+
+                </div>
+                <!-- <div th:replace="~{list-book-fragment}"></div> -->
+                <!-- <div class="row">
+                    <div class="col-12 mb-3">
+                        <div class="card-deck align-items-center">
+                            <div class=" text-left" th:if="${booksByCategory.page != 0}">
+
+                                <a th:href="@{'/books/' + ${book.id} + '?page='+ ${booksByCategory.page-1}}"
+                                    class="arrow-prev"><i class="fas fa-arrow-left"></i></a>
+                            </div>
+                            <div class="card border-0 position-relative" th:each="book : ${booksByCategory.content}">
+                                <div class="card-img-top">
+                                    <img th:src="${#lists.isEmpty(book.bookImages)==true ? null : book.bookImages[0].url}"
+                                        class="img-fluid mx-auto d-block" alt="Card image cap">
+                                </div>
+                                <div class="card-body text-center">
+                                    <h4 class="card-title">
+                                        <a th:href="@{'/books/' + ${book.id}}"
+                                            class="font-weight-bold text-dark text-uppercase small"
+                                            th:text="${book.title}"></a>
+                                    </h4>
+                                    <h5 class="card-price small text-warning">
+                                        <i>
+                                            <s>$199</s>
+                                            <i th:text="${book.price}"></i>
+                                        </i>
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class=" text-right" th:if="${not booksByCategory.last}">
+                                <a th:href="@{'/books/' + ${book.id} + '?page='+ ${booksByCategory.page+1}}"
+                                    class="arrow-next"><i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- Mũi tên phân trang -->
+                <!-- <div class="row">
+                    <div class="col-12 text-center">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div> -->
+
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // Lắng nghe sự kiện khi người dùng nhấp vào tab xem trước
+    document.addEventListener('DOMContentLoaded', function () {
+        // Lấy tất cả các tab xem trước nhỏ
+        var previewTabs = document.querySelectorAll('.preview-thumbnail a');
+
+        // Lặp qua từng tab và thêm bộ lắng nghe sự kiện click
+        previewTabs.forEach(function (tab) {
+            tab.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                // Lấy đường dẫn ảnh từ thuộc tính data-target của tab
+                var targetImage = this.getAttribute('data-target');
+
+                // Lấy phần tử hiển thị ảnh chính
+                var mainImage = document.querySelector(targetImage);
+
+                // Xóa lớp active từ tất cả các tab và ảnh chính
+                previewTabs.forEach(function (tab) {
+                    tab.parentElement.classList.remove('active');
+                });
+                document.querySelectorAll('.preview-pic .tab-pane').forEach(function (previewImage) {
+                    previewImage.classList.remove('active');
+                });
+
+                // Thêm lớp active vào tab được nhấp và ảnh chính tương ứng
+                this.parentElement.classList.add('active');
+                mainImage.classList.add('active');
+            });
+        });
+    });
+
+    function getData() {
+        fetch('http://localhost:8080/books/booksByAuthor/1').then(function (response) {
+            return response.text();
+        }).then(function (html) {
+            console.log(html)
+            document.getElementById("myPlaceHolder").innerHTML += html;
+        }).catch(function (err) {
+            console.warn('Something went wrong.', err);
+        });
+    }
+
+
+
+</script>
+
+<script th:src="@{/js/shoping-cart.js}"></script>
+
+</html>

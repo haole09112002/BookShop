@@ -1,0 +1,56 @@
+<link th:href="@{/css/topnav.css}" rel="stylesheet">
+<div th:fragment="header">
+    <nav id="mynav" class="navbar navbar-expand navbar-light">
+        <a class="navbar-brand" href="#">
+            <img src="path_to_logo.png" alt="Logo">
+        </a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <form class="form-inline my-2 my-lg-0" th:action="@{/books/search-books}" method="GET"
+                    onsubmit="return validateForm()">
+                    <input id="txtSearch" class="form-control form-control-sm mr-sm-2" type="search" name="keyword"
+                        placeholder="Search" aria-label="Search" th:value="${keyword != null ? keyword : null}">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge badge-danger">Thông báo</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge badge-success">Giỏ hàng</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-user"></i>
+                    Đăng nhập
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<script th:inline="javascript">
+    function searchBooks() {
+        var keyword = document.getElementById('keyword').value.trim();
+        if (keyword.length > 0) {
+            window.location.href = '/books/search-books?sort=asc&keyword=' + encodeURIComponent(keyword);
+        } else {
+            window.location.href = '/books/search-books?sort=asc';
+        }
+    }
+
+    function validateForm() {
+        var keyword = document.getElementById("txtSearch").value;
+        if (keyword === "") {
+            window.location.href = '/books'
+            return false; // Ngăn chặn gửi biểu mẫu
+        }
+        return true; // Cho phép gửi biểu mẫu
+    }
+
+</script>

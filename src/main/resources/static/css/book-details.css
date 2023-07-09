@@ -1,0 +1,378 @@
+/*****************globals*************/
+body {
+    font-family: 'open sans';
+    overflow-x: hidden;
+    background-color: #f0f0f0;
+}
+
+img {
+    max-width: 100%;
+}
+
+.preview {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 996px) {
+    .preview {
+        margin-bottom: 20px;
+    }
+}
+
+.preview-pic {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+
+.preview-thumbnail.nav-tabs {
+    border: none;
+    margin-top: 15px;
+}
+
+.preview-thumbnail.nav-tabs li {
+    width: 18%;
+    margin-right: 2.5%;
+}
+
+.preview-thumbnail.nav-tabs li img {
+    max-width: 100%;
+    display: block;
+}
+
+.preview-thumbnail.nav-tabs li a {
+    padding: 0;
+    margin: 0;
+}
+
+.preview-thumbnail.nav-tabs li:last-of-type {
+    margin-right: 0;
+}
+
+.tab-content {
+    overflow: hidden;
+}
+
+.tab-content img {
+    width: 100%;
+    -webkit-animation-name: opacity;
+    animation-name: opacity;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+}
+
+.card {
+    margin-top: 50px;
+    background: #fff;
+    padding: 3em;
+    line-height: 1.5em;
+}
+
+@media screen and (min-width: 997px) {
+    .wrapper {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+}
+
+.details {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.colors {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+
+.product-title,
+.price-text,
+.sizes,
+.colors {
+    text-transform: UPPERCASE;
+    font-weight: bold;
+}
+
+.checked,
+.price-text span {
+    color: #ff9f1a;
+}
+
+.product-title,
+.rating,
+.product-description,
+.price-text,
+.vote,
+.sizes {
+    margin-bottom: 15px;
+}
+
+.product-title {
+    margin-top: 0;
+}
+
+.size {
+    margin-right: 10px;
+}
+
+.size:first-of-type {
+    margin-left: 40px;
+}
+
+.color {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    height: 2em;
+    width: 2em;
+    border-radius: 2px;
+}
+
+.color:first-of-type {
+    margin-left: 20px;
+}
+
+.add-to-cart,
+.like {
+    background: #ff9f1a;
+    padding: 12px 36px;
+    margin-right: 10px;
+    border: none;
+    text-transform: UPPERCASE;
+    font-weight: bold;
+    color: #fff;
+    -webkit-transition: background .3s ease;
+    transition: background .3s ease;
+}
+
+.add-to-cart:hover,
+.like:hover {
+    background: #b36800;
+    color: #fff;
+}
+
+.not-available {
+    text-align: center;
+    line-height: 2em;
+}
+
+.not-available:before {
+    font-family: fontawesome;
+    content: "\f00d";
+    color: #fff;
+}
+
+.orange {
+    background: #ff9f1a;
+}
+
+.green {
+    background: #85ad00;
+}
+
+.blue {
+    background: #0076ad;
+}
+
+.tooltip-inner {
+    padding: 1.3em;
+}
+
+@-webkit-keyframes opacity {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(3);
+        transform: scale(3);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes opacity {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(3);
+        transform: scale(3);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+/*# sourceMappingURL=style.css.map */
+
+
+.orange-input {
+    background-color: #fff;
+    color: black;
+    padding: 8px;
+    border: 1px solid black;
+    border-radius: 4px;
+    width: 200px;
+    text-align: center;
+    font-weight: bold;
+    margin-left: 50px;
+}
+
+.book-label .book-label-no {
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* CSS cho tab vÃ  áº£nh nhá»� khi Ä‘Æ°á»£c chá»�n */
+/* .preview-thumbnail li.active a, */
+.preview-thumbnail li.active a img {
+    border: 2px solid orange;
+    /* Ä�Æ°á»�ng viá»�n khÃ¡c biá»‡t */
+}
+
+.container {
+    width: 85%;
+    max-width: 100%;
+}
+
+.quantity {
+    padding: 0;
+}
+
+.book-title {
+    margin-bottom: 0;
+}
+
+.card-book-info {
+    padding: 20px 20px 5px 20px;
+    margin-top: 15px;
+}
+
+.book-label {
+    width: 25%;
+
+}
+
+.book-info-row {
+    line-height: 1;
+    /* Điều chỉnh chiều cao của dòng */
+}
+
+.book-value {
+    width: 75%;
+
+}
+
+.hr-line {
+    border: none;
+    height: 2px;
+    background-color: #ccc;
+}
+
+.border-0 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-top: 10px;
+}
+
+.text-center {
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+}
+
+
+/*cung tac gia*/
+.arrow-prev,
+.arrow-next {
+    font-size: 24px;
+    /* Kích thước của mũi tên */
+    color: #333;
+    /* Màu sắc của mũi tên */
+    /* Các thuộc tính CSS khác cho kiểu hiển thị của mũi tên */
+    margin-top: auto;
+    /* Đặt margin-top là "auto" để căn giữa theo chiều dọc */
+}
+
+
+
+.arrow-prev:hover,
+.arrow-next:hover {
+    color: #ff0000;
+    /* Màu sắc khi di chuột vào mũi tên */
+}
+
+.card-deck {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.card-deck .arrow-prev,
+.card-deck .arrow-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #000;
+    z-index: 2;
+}
+
+.card-deck .arrow-prev {
+    left: 0;
+}
+
+.card-deck .arrow-next {
+    right: 0;
+}
+
+.card {
+    position: relative;
+}
+
+.card-img-top {
+    position: relative;
+}
+
+.card-img-top .arrow-prev,
+.card-img-top .arrow-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #000;
+    z-index: 3;
+}
+
+.card-img-top .arrow-prev {
+    left: 10px;
+}
+
+.card-img-top .arrow-next {
+    right: 10px;
+}

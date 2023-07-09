@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+
+<body>
+    <h1>Home</h1>
+
+    <table>
+        <!-- Hiển thị danh sách sách -->
+        <tr th:each="book : ${bookPages.content}">
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.language}"></td>
+        </tr>
+    </table>
+
+    <!-- Hiển thị phân trang -->
+    <div>
+
+        <ul class="pagination">
+            <li th:class="${bookPages.page == 0} ? 'disabled' : 'active'">
+                <a th:href="@{/home(page=${bookPages.page - 1})}">&laquo; Previous</a>
+            </li>
+            <li th:each="pageNumber : ${#numbers.sequence(0, bookPages.totalPages - 1)}">
+                <a th:href="@{/home(page=${pageNumber})}" th:text="${pageNumber + 1}"
+                   th:class="${pageNumber == bookPages.page} ? 'active' : ''"></a>
+            </li>
+            <li th:class="${bookPages.last == true} ? 'disabled' : 'active'">
+                <a th:href="@{/home(page=${bookPages.page + 1})}">Next &raquo;</a>
+            </li>
+        </ul>
+    </div>
+</body>
+
+</html>

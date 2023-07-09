@@ -1,0 +1,34 @@
+<link th:href="@{/css/book-details.css}" rel="stylesheet">
+<div class="row" th:fragment="list-book-fragment">
+    <div class="col-12 mb-3">
+        <div class="card-deck align-items-center">
+            <div class=" text-left" th:if="${booksByCategory.page != 0}">
+
+                <a th:href="@{'/books/' + ${book.id} + '?page='+ ${booksByCategory.page-1}}" class="arrow-prev"><i
+                        class="fas fa-arrow-left"></i></a>
+            </div>
+            <div class="card border-0 position-relative" th:each="book : ${booksByCategory.content}">
+                <div class="card-img-top">
+                    <img th:src="${#lists.isEmpty(book.bookImages)==true ? null : book.bookImages[0].url}"
+                        class="img-fluid mx-auto d-block" alt="Card image cap">
+                </div>
+                <div class="card-body text-center">
+                    <h4 class="card-title">
+                        <a th:href="@{'/books/' + ${book.id}}" class="font-weight-bold text-dark text-uppercase small"
+                            th:text="${book.title}"></a>
+                    </h4>
+                    <h5 class="card-price small text-warning">
+                        <i>
+                            <s>$199</s>
+                            <i th:text="${book.price}"></i>
+                        </i>
+                    </h5>
+                </div>
+            </div>
+            <div class=" text-right" th:if="${not booksByCategory.last}">
+                <a th:href="@{'/books/' + ${book.id} + '?page='+ ${booksByCategory.page+1}}" class="arrow-next"><i
+                        class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
