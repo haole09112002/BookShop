@@ -31,12 +31,12 @@ public class InvoiceController {
 	
 	@GetMapping("/invoice")
 	public String checkoutPage() {
-		return "checkout";
+		return "/users/checkout";
 	}
 	
 	@GetMapping("/invoice/complete")
 	public String checkoutCompletePage() {
-		return "checkout-complete";
+		return "/users/checkout-complete";
 	}
 	
 	@PostMapping("/invoice")

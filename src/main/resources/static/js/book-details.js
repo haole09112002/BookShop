@@ -16,8 +16,7 @@ function postComment() {
             .then(response => {
                 // if (response.ok) {
                 if (response != null) {
-                    alert("ca")
-                    console.log(response);
+
                     html = ` <div>
                     <hr />
                     <div class="row">
@@ -27,7 +26,8 @@ function postComment() {
                             <div class="review-block-name"><a href="#">`+ response.userFullname + `</a>
                             </div>
                             <div class="review-block-date">
-                                <span >`+ response.createdDate + `</span><br />1 day ago
+                                <span >`+ response.createdDate + `
+                              
                             </div>
                         </div>
                         <div class="col-sm-9">

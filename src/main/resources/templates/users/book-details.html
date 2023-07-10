@@ -245,7 +245,9 @@
                                     <div class="review-block-name"><a href="#" th:text="${comment.user.fullName}"></a>
                                     </div>
                                     <div class="review-block-date">
-                                        <span th:text="${comment.createdDate}"></span><br />1 day ago
+                                        <span th:text="${comment.createdDate}">
+
+                                            <!-- </span><br />1 day ago -->
                                     </div>
                                 </div>
                                 <div class="col-sm-9">

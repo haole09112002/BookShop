@@ -129,7 +129,6 @@ public class UserController {
 	public ResponseEntity<?> remove(@PathVariable(required = true) String username ,Model model, Authentication authentication) {
 		if(authentication != null) {
 		 Boolean isCompete = userService.removeAdmin(username);
-		 System.out.println(isCompete);
 			return ResponseEntity.ok(isCompete);
 		}
 		else {

@@ -23,11 +23,9 @@ public class CategoryController {
 	@PostMapping("/admin/categories/new")
 	private ResponseEntity<Category> saveCategory(@RequestBody CategoryRequest categoryRequest, Authentication authentication) {
 		if(authentication != null) {
-			System.out.println(categoryRequest.getName());
 			return ResponseEntity.ok(categoryService.save(categoryRequest));
 		}
 		else {
-			System.out.println(categoryRequest.getName());
 			return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 		

@@ -22,12 +22,16 @@
                     <div class="card shadow">
                         <div class="card-body mx-auto">
                             <h4 class="card-title mt-3 text-center">LỖI</h4>
+                            <th:block th:if="${error}">
+                                <!-- <a th:text="${error.messages}"></a> -->
+                                <!-- <input th:value="${error.success}"> -->
+                                <!-- <span th:text="${error.success}"></span> -->
+                                <!-- <span th:text="${error.error}"></span> -->
+                                <!-- <span th:text="${error.status}"></span> -->
+                                <!-- <span th:text="${error.messages}"></span> -->
+                                <!-- <span th:text="${error.timestamp}"></span> -->
+                            </th:block>
 
-                            <span th:text="error.success"></span>
-                            <span th:text="error.error"></span>
-                            <span th:text="error.status"></span>
-                            <span th:text="error.messages"></span>
-                            <span th:text="error.timestamp"></span>
                         </div>
                     </div>
                 </div>

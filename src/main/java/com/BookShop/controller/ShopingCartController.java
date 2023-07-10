@@ -53,7 +53,7 @@ public class ShopingCartController {
 			model.addAttribute("cartItems", cartItems);
 		}
 			
-		return "shoping-cart";
+		return "/users/shoping-cart";
 	}
 	
 	
@@ -117,7 +117,6 @@ public class ShopingCartController {
 		if	(item.getQuantity() <= quantity) {
 			if(authentication != null) {
 				UserPrincipal userPrincipal =(UserPrincipal) authentication.getPrincipal();
-				System.out.println(userPrincipal.getFullname());
 				shoppingCartService.addToCart(item, userPrincipal.getUsername());
 			}
 			

@@ -28,7 +28,7 @@ public class HomeController {
 				model.addAttribute("name", principal.getName());
 		}
 	
-		return "home";
+		return "/users/home";
 	}
 	
 	@RequestMapping(value = "/401", method = RequestMethod.GET)

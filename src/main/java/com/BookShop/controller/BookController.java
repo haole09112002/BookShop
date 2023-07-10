@@ -61,23 +61,24 @@ public class BookController {
 	public String getBookByCategoryId(Model model,@PathVariable long id, @RequestParam(required = false, defaultValue = "0") int page,  @RequestParam(required = false, defaultValue = "10") int size) {
 		model.addAttribute("bookPages", bookService.findByCategoryId(page, size, id));
 		model.addAttribute("categories", categoryService.findRootCategory());
-		return "book-result";
+		return "/users/book-result";
 	}
 	
 	@GetMapping("/books/{id}")
 	public String getBookDetails(@PathVariable(name = "id") Long id, @RequestParam(defaultValue = "0", required = true) int page,
-			@RequestParam(defaultValue = "5") int size,Principal principal, Model model) {
+			@RequestParam(defaultValue = "5") int size, Authentication authentication, Model model) {
 		Book book = bookService.findById(id);
 			model.addAttribute("book", book);
 			boolean isPurchased = false;
-			if(principal != null) {
-				isPurchased = invoiceService.userHavePurchasedBook(principal.getName(), id);
+			if(authentication != null) {
+				UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+				isPurchased = invoiceService.userHavePurchasedBook(userPrincipal.getUsername(), id);
 			}
 			model.addAttribute("isPurchased", isPurchased);
 			model.addAttribute("comments", commentService.findCommentsByBookId(id));
 			model.addAttribute("booksByAuthor", bookService.findByAuthorId(page, size, book.getAuthor().getId()));
 			model.addAttribute("booksByCategory", bookService.findByCategoryId(page, size, book.getCategory().getId()));
-		return "book-details";
+		return "/users/book-details";
 	}
 	
 	@GetMapping("/books")
@@ -96,7 +97,7 @@ public class BookController {
 		model.addAttribute("book", book);
         model.addAttribute("books",  bookService.findByAuthorId(page, size, book.getCategory().getId()));
         model.addAttribute("type", "author");
-        return "list-book-fragment :: list-book-fragment";
+        return "/users/list-book-fragment :: list-book-fragment";
     }
 	
 	@GetMapping(value = "/books/booksByCategory/{id}")
@@ -106,7 +107,7 @@ public class BookController {
 		model.addAttribute("book", book);
         model.addAttribute("books",  bookService.findByCategoryId(page, size, book.getCategory().getId()));
         model.addAttribute("type", "category");
-        return "list-book-fragment :: list-book-fragment";
+        return "/users/list-book-fragment :: list-book-fragment";
     }
 	
 
@@ -116,7 +117,7 @@ public class BookController {
 			@RequestParam(defaultValue = "5") int size, Model model) {
         model.addAttribute("books",  bookService.findByCategoryId(page, size,(long) 1));
         model.addAttribute("type", "sale");
-        return "list-book-top-sale :: list-book-top-sale";
+        return "/users/list-book-top-sale :: list-book-top-sale";
     }
 	
 	@GetMapping(value = "/books/top-categories/{id}")
@@ -124,7 +125,7 @@ public class BookController {
 	        model.addAttribute("books",  bookService.findTop5ByCategoryId(id));
 	        model.addAttribute("type", "category");
 	        model.addAttribute("id", id);
-	        return "list-book-home-fragment :: list-book-home-fragment";
+	        return "/users/list-book-home-fragment :: list-book-home-fragment";
 	}
 	
 	@GetMapping(value = "/books/top-sale")
@@ -132,7 +133,7 @@ public class BookController {
 	
         model.addAttribute("books",  bookService.top5Sale());
         model.addAttribute("type", "sale");
-        return "list-book-home-fragment :: list-book-home-fragment";
+        return "/users/list-book-home-fragment :: list-book-home-fragment";
     }
 	
 	@GetMapping("/books/search-books")
@@ -142,7 +143,7 @@ public class BookController {
 		System.out.println(params.toString()); 
 		if (params.containsKey("categoryId")) {
 	        Long categoryId = Long.parseLong((String) params.get("categoryId"));
-	        System.out.println(categoryId+"");
+
 	        model.addAttribute("categoryId", categoryId);
 	    }
 		else {
@@ -166,7 +167,7 @@ public class BookController {
 	    }
 		model.addAttribute("bookPages", bookService.filterBooks(params));
 		model.addAttribute("categories", categoryService.findRootCategory());
-		return "book-result";
+		return "/users/book-result";
 	}
 	
 	@GetMapping("/admin/books")

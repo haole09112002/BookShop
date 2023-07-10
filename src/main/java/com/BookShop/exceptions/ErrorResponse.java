@@ -1,5 +1,6 @@
 package com.BookShop.exceptions;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorResponse {
+public class ErrorResponse implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Boolean success;
 	private String error;
 	private HttpStatus  status;
